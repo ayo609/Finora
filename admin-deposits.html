@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Admin Deposits</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 20px;
+    }
+
+    .header {
+      background: var(--gradient-dark);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .main-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    @media (min-width: 600px) {
+      .summary-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .summary-count {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 0.2rem;
+    }
+
+    .summary-amount {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+      margin-bottom: 0.3rem;
+    }
+
+    .summary-label {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-weight: 600;
+    }
+
+    /* Search Bar */
+    .search-bar {
+      position: relative;
+      margin-bottom: 1rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 14px;
+      font-size: 0.85rem;
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      transition: all 0.3s;
+      background: white;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.9rem;
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 20px;
+      background: white;
+      color: var(--gray-600);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Manrope', sans-serif;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-tab.active {
+      background: var(--gradient-blue);
+      color: white;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Deposit Card */
+    .deposit-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .deposit-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .deposit-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      background: var(--gradient-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .deposit-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .deposit-name {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.1rem;
+    }
+
+    .deposit-username {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    .deposit-amount {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--primary-blue);
+    }
+
+    .deposit-details {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.5rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .deposit-detail-item {
+      background: var(--gray-50);
+      border-radius: 10px;
+      padding: 0.6rem;
+    }
+
+    .detail-label {
+      font-size: 0.6rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+      font-weight: 600;
+    }
+
+    .detail-value {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .deposit-status {
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 0.8rem;
+    }
+
+    .status-pending {
+      background: var(--yellow-100);
+      color: var(--yellow-500);
+    }
+
+    .status-approved {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .status-rejected {
+      background: var(--red-100);
+      color: var(--red-500);
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.6rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+
+    .view-btn {
+      background: #dbeafe;
+      color: #2563eb;
+    }
+
+    .view-btn:hover {
+      background: var(--primary-blue);
+      color: white;
+    }
+
+    .approve-btn {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .approve-btn:hover {
+      background: var(--green-500);
+      color: white;
+    }
+
+    .reject-btn {
+      background: var(--red-100);
+      color: var(--red-500);
+    }
+
+    .reject-btn:hover {
+      background: var(--red-500);
+      color: white;
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-state i {
+      font-size: 2.5rem;
+      color: var(--gray-300);
+      margin-bottom: 0.8rem;
+    }
+
+    .empty-state p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+    }
+
+    /* Proof Modal */
+    .proof-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .proof-modal.show {
+      display: flex;
+    }
+
+    .proof-content {
+      background: white;
+      border-radius: 20px;
+      padding: 1rem;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      animation: modalIn 0.3s ease-out;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .proof-image {
+      width: 100%;
+      border-radius: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .proof-close-btn {
+      padding: 0.7rem 1.5rem;
+      background: var(--gray-100);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-600);
+    }
+
+    /* Confirmation Modal */
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .confirm-modal.show {
+      display: flex;
+    }
+
+    .confirm-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      animation: modalIn 0.3s ease-out;
+    }
+
+    .confirm-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--green-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .confirm-icon.warning {
+      background: var(--red-100);
+    }
+
+    .confirm-icon i {
+      color: var(--green-500);
+      font-size: 1.5rem;
+    }
+
+    .confirm-icon.warning i {
+      color: var(--red-500);
+    }
+
+    .confirm-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirm-text {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+      line-height: 1.5;
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .cancel-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gray-100);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-600);
+    }
+
+    .confirm-action-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--green-500);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      color: white;
+    }
+
+    .confirm-action-btn.danger {
+      background: var(--red-500);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+    .toast.warning { border-left-color: var(--yellow-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+    .toast.warning .toast-icon { background: var(--yellow-100); color: var(--yellow-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='admin-dashboard.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Admin Deposits</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Summary -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-count" id="pendingCount">0</div>
+        <div class="summary-amount" id="pendingAmount">₦0</div>
+        <div class="summary-label">Pending</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-count" id="approvedCount">0</div>
+        <div class="summary-amount" id="approvedAmount">₦0</div>
+        <div class="summary-label">Approved</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-count" id="rejectedCount">0</div>
+        <div class="summary-amount" id="rejectedAmount">₦0</div>
+        <div class="summary-label">Rejected</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-count" id="totalCount">0</div>
+        <div class="summary-amount" id="totalAmount">₦0</div>
+        <div class="summary-label">Total</div>
+      </div>
+    </div>
+
+    <!-- Search -->
+    <div class="search-bar">
+      <i class="fas fa-search"></i>
+      <input type="text" id="searchInput" placeholder="Search by name, username, phone, or amount..." oninput="displayDeposits()">
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="pending" onclick="setFilter('pending')">Pending</button>
+      <button class="filter-tab" data-filter="approved" onclick="setFilter('approved')">Approved</button>
+      <button class="filter-tab" data-filter="rejected" onclick="setFilter('rejected')">Rejected</button>
+      <button class="filter-tab" data-filter="all" onclick="setFilter('all')">All</button>
+    </div>
+
+    <!-- Deposits List -->
+    <div id="depositsList">
+      <div class="empty-state">
+        <i class="fas fa-spinner fa-spin"></i>
+        <p>Loading deposits...</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Proof Modal -->
+  <div class="proof-modal" id="proofModal">
+    <div class="proof-content">
+      <img class="proof-image" id="proofImage" src="" alt="Payment Proof">
+      <button class="proof-close-btn" onclick="closeProofModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-content">
+      <div class="confirm-icon" id="confirmIcon">
+        <i class="fas fa-check-circle" id="confirmIconImg"></i>
+      </div>
+      <div class="confirm-title" id="confirmTitle">Confirm Action</div>
+      <div class="confirm-text" id="confirmText">Are you sure?</div>
+      <div class="confirm-actions">
+        <button class="cancel-btn" onclick="hideConfirmModal()">Cancel</button>
+        <button class="confirm-action-btn" id="confirmActionBtn" onclick="executeAction()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, getDocs, collection, updateDoc, setDoc, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let allDeposits = [];
+    let currentFilter = 'pending';
+    let pendingAction = null;
+    let pendingDepositId = null;
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 4000);
+    }
+
+    // Load deposits
+    async function loadDeposits() {
+      try {
+        const depositsSnap = await getDocs(collection(db, 'deposits'));
+        allDeposits = [];
+        
+        depositsSnap.forEach(doc => {
+          const data = doc.data();
+          allDeposits.push({
+            id: doc.id,
+            ...data,
+            timestamp: data.createdAt?.toDate?.() || new Date(data.createdAt) || new Date()
+          });
+        });
+        
+        allDeposits.sort((a, b) => b.timestamp - a.timestamp);
+        
+        updateSummary();
+        displayDeposits();
+        
+      } catch (error) {
+        console.error('Error loading deposits:', error);
+        document.getElementById('depositsList').innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle"></i><p>Failed to load deposits</p></div>';
+      }
+    }
+
+    // Update summary
+    function updateSummary() {
+      let pending = { count: 0, amount: 0 };
+      let approved = { count: 0, amount: 0 };
+      let rejected = { count: 0, amount: 0 };
+      
+      allDeposits.forEach(deposit => {
+        const amount = deposit.amount || 0;
+        
+        if (deposit.status === 'pending') {
+          pending.count++;
+          pending.amount += amount;
+        } else if (deposit.status === 'approved') {
+          approved.count++;
+          approved.amount += amount;
+        } else if (deposit.status === 'rejected') {
+          rejected.count++;
+          rejected.amount += amount;
+        }
+      });
+      
+      document.getElementById('pendingCount').textContent = pending.count;
+      document.getElementById('pendingAmount').textContent = '₦' + pending.amount.toLocaleString();
+      document.getElementById('approvedCount').textContent = approved.count;
+      document.getElementById('approvedAmount').textContent = '₦' + approved.amount.toLocaleString();
+      document.getElementById('rejectedCount').textContent = rejected.count;
+      document.getElementById('rejectedAmount').textContent = '₦' + rejected.amount.toLocaleString();
+      document.getElementById('totalCount').textContent = allDeposits.length;
+      document.getElementById('totalAmount').textContent = '₦' + (pending.amount + approved.amount + rejected.amount).toLocaleString();
+    }
+
+    // Display deposits
+    function displayDeposits() {
+      const depositsList = document.getElementById('depositsList');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      
+      let filtered = allDeposits;
+      
+      if (currentFilter !== 'all') {
+        filtered = filtered.filter(d => d.status === currentFilter);
+      }
+      
+      if (searchTerm) {
+        filtered = filtered.filter(d => 
+          (d.senderName || '').toLowerCase().includes(searchTerm) ||
+          (d.phoneNumber || '').toLowerCase().includes(searchTerm) ||
+          (d.amount || '').toString().includes(searchTerm)
+        );
+      }
+      
+      if (filtered.length === 0) {
+        depositsList.innerHTML = '<div class="empty-state"><i class="fas fa-inbox"></i><p>No deposits found</p></div>';
+        return;
+      }
+      
+      depositsList.innerHTML = '';
+      
+      filtered.forEach(deposit => {
+        const initial = (deposit.senderName || 'U').charAt(0).toUpperCase();
+        const isPending = deposit.status === 'pending';
+        
+        const card = document.createElement('div');
+        card.className = 'deposit-card';
+        card.innerHTML = `
+          <div class="deposit-header">
+            <div class="deposit-avatar">${initial}</div>
+            <div class="deposit-info">
+              <div class="deposit-name">${deposit.senderName || 'Unknown'}</div>
+              <div class="deposit-username">${deposit.phoneNumber || 'No phone'}</div>
+            </div>
+            <div class="deposit-amount">₦${(deposit.amount || 0).toLocaleString()}</div>
+          </div>
+          
+          <div class="deposit-details">
+            <div class="deposit-detail-item">
+              <div class="detail-label">Bank</div>
+              <div class="detail-value">${deposit.bankName || 'Opay'}</div>
+            </div>
+            <div class="deposit-detail-item">
+              <div class="detail-label">Date</div>
+              <div class="detail-value">${deposit.timestamp.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', year: 'numeric' })}</div>
+            </div>
+          </div>
+          
+          <span class="deposit-status status-${deposit.status}">${deposit.status}</span>
+          
+          <div class="action-buttons">
+            <button class="action-btn view-btn" onclick="viewProof('${deposit.id}')">
+              <i class="fas fa-image"></i> View Proof
+            </button>
+            ${isPending ? `
+              <button class="action-btn approve-btn" onclick="showConfirm('approve', '${deposit.id}')">
+                <i class="fas fa-check"></i> Approve
+              </button>
+              <button class="action-btn reject-btn" onclick="showConfirm('reject', '${deposit.id}')">
+                <i class="fas fa-times"></i> Reject
+              </button>
+            ` : ''}
+          </div>
+        `;
+        
+        depositsList.appendChild(card);
+      });
+    }
+
+    // Set filter
+    window.setFilter = function(filter) {
+      currentFilter = filter;
+      document.querySelectorAll('.filter-tab').forEach(tab => tab.classList.remove('active'));
+      document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+      displayDeposits();
+    };
+
+    // View proof
+    window.viewProof = function(depositId) {
+      const deposit = allDeposits.find(d => d.id === depositId);
+      if (deposit && deposit.proofImage) {
+        document.getElementById('proofImage').src = deposit.proofImage;
+        document.getElementById('proofModal').classList.add('show');
+      } else {
+        showToast('No Proof', 'No payment proof uploaded', 'warning');
+      }
+    };
+
+    window.closeProofModal = function() {
+      document.getElementById('proofModal').classList.remove('show');
+    };
+
+    // Show confirmation
+    window.showConfirm = function(action, depositId) {
+      pendingAction = action;
+      pendingDepositId = depositId;
+      
+      const confirmIcon = document.getElementById('confirmIcon');
+      const confirmIconImg = document.getElementById('confirmIconImg');
+      const confirmActionBtn = document.getElementById('confirmActionBtn');
+      
+      if (action === 'approve') {
+        document.getElementById('confirmTitle').textContent = 'Approve Deposit';
+        document.getElementById('confirmText').textContent = 'This will credit the user\'s deposit wallet. Are you sure?';
+        confirmIcon.className = 'confirm-icon';
+        confirmIconImg.className = 'fas fa-check-circle';
+        confirmActionBtn.className = 'confirm-action-btn';
+        confirmActionBtn.textContent = 'Approve';
+      } else {
+        document.getElementById('confirmTitle').textContent = 'Reject Deposit';
+        document.getElementById('confirmText').textContent = 'This will reject the deposit request. Are you sure?';
+        confirmIcon.className = 'confirm-icon warning';
+        confirmIconImg.className = 'fas fa-times-circle';
+        confirmActionBtn.className = 'confirm-action-btn danger';
+        confirmActionBtn.textContent = 'Reject';
+      }
+      
+      document.getElementById('confirmModal').classList.add('show');
+    };
+
+    window.hideConfirmModal = function() {
+      document.getElementById('confirmModal').classList.remove('show');
+    };
+
+    // Execute action
+    window.executeAction = async function() {
+      hideConfirmModal();
+      
+      if (!pendingDepositId) return;
+      
+      try {
+        const depositDoc = await getDoc(doc(db, 'deposits', pendingDepositId));
+        if (!depositDoc.exists()) return;
+        
+        const depositData = depositDoc.data();
+        const amount = depositData.amount || 0;
+        const userId = depositData.userId;
+        
+        if (pendingAction === 'approve') {
+          // Update deposit status
+          await updateDoc(doc(db, 'deposits', pendingDepositId), {
+            status: 'approved',
+            approvedAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          });
+          
+          // Credit user's deposit wallet
+          await updateDoc(doc(db, 'users', userId), {
+            depositWallet: increment(amount),
+            totalDeposits: increment(amount),
+            updatedAt: serverTimestamp()
+          });
+          
+          // Add transaction
+          await setDoc(doc(collection(db, 'users', userId, 'transactions')), {
+            type: 'deposit',
+            amount: amount,
+            wallet: 'deposit',
+            status: 'completed',
+            description: 'Deposit Approved by Admin',
+            createdAt: serverTimestamp()
+          });
+          
+          showToast('Deposit Approved', '₦' + amount.toLocaleString() + ' credited to user wallet', 'success');
+        } else {
+          // Reject deposit
+          await updateDoc(doc(db, 'deposits', pendingDepositId), {
+            status: 'rejected',
+            rejectedAt: serverTimestamp(),
+            updatedAt: serverTimestamp()
+          });
+          
+          showToast('Deposit Rejected', 'Deposit request has been rejected', 'success');
+        }
+        
+        loadDeposits();
+        
+      } catch (error) {
+        console.error('Action error:', error);
+        showToast('Error', 'Failed to execute action', 'error');
+      }
+    };
+
+    // Check admin auth
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists() && userDoc.data().isAdmin === true) {
+            loadDeposits();
+          } else {
+            window.location.href = 'admin-login.html';
+          }
+        } catch (error) {
+          console.error('Error checking admin:', error);
+        }
+      } else {
+        window.location.href = 'admin-login.html';
+      }
+    });
+
+    console.log('Finora Admin Deposits Page Ready');
+  </script>
+</body>
+</html>
