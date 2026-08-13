@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Transactions</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background: white;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--gray-600);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy-blue);
+    }
+
+    .main-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Summary Cards */
+    .summary-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .summary-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+    }
+
+    .summary-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.3rem;
+      font-weight: 600;
+    }
+
+    .summary-value {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+    }
+
+    .summary-value.credit {
+      color: var(--green-500);
+    }
+
+    .summary-value.debit {
+      color: var(--red-500);
+    }
+
+    /* Filter Tabs */
+    .filter-tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+
+    .filter-tabs::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-tab {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 20px;
+      background: white;
+      color: var(--gray-600);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Manrope', sans-serif;
+      white-space: nowrap;
+      flex-shrink: 0;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+    }
+
+    .filter-tab.active {
+      background: var(--gradient-blue);
+      color: white;
+      box-shadow: 0 4px 10px rgba(37, 99, 235, 0.3);
+    }
+
+    /* Transactions List */
+    .transaction-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .transaction-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .transaction-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .transaction-type {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.2rem;
+    }
+
+    .transaction-date {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+    }
+
+    .transaction-amount {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      text-align: right;
+    }
+
+    .transaction-amount.credit {
+      color: var(--green-500);
+    }
+
+    .transaction-amount.debit {
+      color: var(--red-500);
+    }
+
+    .transaction-status {
+      font-size: 0.65rem;
+      font-weight: 600;
+      padding: 0.25rem 0.5rem;
+      border-radius: 20px;
+      margin-top: 0.2rem;
+      display: inline-block;
+    }
+
+    .status-completed {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .status-pending {
+      background: var(--yellow-100);
+      color: var(--yellow-500);
+    }
+
+    .status-failed {
+      background: var(--red-100);
+      color: var(--red-500);
+    }
+
+    .status-active {
+      background: #dbeafe;
+      color: var(--primary-blue);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      color: var(--gray-300);
+      margin-bottom: 0.8rem;
+    }
+
+    .empty-text {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+    }
+
+    .nav-item span {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .nav-item.active i { color: var(--primary-blue); }
+    .nav-item.active span { color: var(--primary-blue); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='profile.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Transactions</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Summary -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Total Credits</div>
+        <div class="summary-value credit" id="totalCredits">₦0</div>
+      </div>
+      <div class="summary-card">
+        <div class="summary-label">Total Debits</div>
+        <div class="summary-value debit" id="totalDebits">₦0</div>
+      </div>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="filter-tabs">
+      <button class="filter-tab active" data-filter="all" onclick="filterTransactions('all')">All</button>
+      <button class="filter-tab" data-filter="deposit" onclick="filterTransactions('deposit')">Deposits</button>
+      <button class="filter-tab" data-filter="withdrawal" onclick="filterTransactions('withdrawal')">Withdrawals</button>
+      <button class="filter-tab" data-filter="investment" onclick="filterTransactions('investment')">Investments</button>
+      <button class="filter-tab" data-filter="bonus" onclick="filterTransactions('bonus')">Bonuses</button>
+    </div>
+
+    <!-- Transactions List -->
+    <div id="transactionsList">
+      <!-- Transactions will be loaded here -->
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="plans.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Plans</span>
+    </a>
+    <a href="topup.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Top Up</span>
+    </a>
+    <a href="share.html" class="nav-item">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, getDocs, collection, query, orderBy } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let allTransactions = [];
+    let currentFilter = 'all';
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 3000);
+    }
+
+    // Load transactions
+    async function loadTransactions() {
+      if (!currentUser) return;
+      
+      try {
+        const transactionsRef = collection(db, 'users', currentUser.uid, 'transactions');
+        const transactionsSnap = await getDocs(transactionsRef);
+        
+        allTransactions = [];
+        
+        transactionsSnap.forEach((doc) => {
+          const data = doc.data();
+          allTransactions.push({
+            id: doc.id,
+            ...data,
+            timestamp: data.createdAt?.toDate?.() || new Date(data.createdAt) || new Date()
+          });
+        });
+        
+        // Sort by date (newest first)
+        allTransactions.sort((a, b) => b.timestamp - a.timestamp);
+        
+        // Update summary
+        updateSummary();
+        
+        // Display transactions
+        displayTransactions();
+        
+      } catch (error) {
+        console.error('Error loading transactions:', error);
+        showToast('Error', 'Failed to load transactions', 'error');
+      }
+    }
+
+    // Update summary
+    function updateSummary() {
+      let totalCredits = 0;
+      let totalDebits = 0;
+      
+      allTransactions.forEach(tx => {
+        const amount = tx.amount || 0;
+        
+        if (tx.type === 'deposit' || tx.type === 'welcome_bonus' || tx.type === 'referral_bonus' || tx.type === 'investment_return' || tx.type === 'admin_fund') {
+          totalCredits += amount;
+        } else if (tx.type === 'withdrawal' || tx.type === 'investment') {
+          totalDebits += amount;
+        }
+      });
+      
+      document.getElementById('totalCredits').textContent = '₦' + totalCredits.toLocaleString();
+      document.getElementById('totalDebits').textContent = '₦' + totalDebits.toLocaleString();
+    }
+
+    // Filter transactions
+    window.filterTransactions = function(filter) {
+      currentFilter = filter;
+      
+      // Update active tab
+      document.querySelectorAll('.filter-tab').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelector(`[data-filter="${filter}"]`).classList.add('active');
+      
+      displayTransactions();
+    };
+
+    // Display transactions
+    function displayTransactions() {
+      const transactionsList = document.getElementById('transactionsList');
+      
+      let filtered = allTransactions;
+      
+      if (currentFilter !== 'all') {
+        filtered = allTransactions.filter(tx => {
+          if (currentFilter === 'deposit') return tx.type === 'deposit';
+          if (currentFilter === 'withdrawal') return tx.type === 'withdrawal';
+          if (currentFilter === 'investment') return tx.type === 'investment' || tx.type === 'investment_return';
+          if (currentFilter === 'bonus') return tx.type === 'welcome_bonus' || tx.type === 'referral_bonus';
+          return true;
+        });
+      }
+      
+      if (filtered.length === 0) {
+        transactionsList.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">
+              <i class="fas fa-receipt"></i>
+            </div>
+            <div class="empty-text">No transactions found</div>
+          </div>
+        `;
+        return;
+      }
+      
+      transactionsList.innerHTML = '';
+      
+      filtered.forEach(tx => {
+        const card = document.createElement('div');
+        card.className = 'transaction-card';
+        
+        // Determine icon and colors
+        let icon, iconBg, iconColor, amountClass, amountPrefix;
+        
+        switch(tx.type) {
+          case 'deposit':
+            icon = 'fa-arrow-down';
+            iconBg = '#dbeafe';
+            iconColor = '#2563eb';
+            amountClass = 'credit';
+            amountPrefix = '+';
+            break;
+          case 'withdrawal':
+            icon = 'fa-arrow-up';
+            iconBg = '#fee2e2';
+            iconColor = '#ef4444';
+            amountClass = 'debit';
+            amountPrefix = '-';
+            break;
+          case 'investment':
+            icon = 'fa-chart-line';
+            iconBg = '#d1fae5';
+            iconColor = '#10b981';
+            amountClass = 'debit';
+            amountPrefix = '-';
+            break;
+          case 'investment_return':
+            icon = 'fa-chart-line';
+            iconBg = '#d1fae5';
+            iconColor = '#10b981';
+            amountClass = 'credit';
+            amountPrefix = '+';
+            break;
+          case 'welcome_bonus':
+            icon = 'fa-gift';
+            iconBg = '#fef3c7';
+            iconColor = '#f59e0b';
+            amountClass = 'credit';
+            amountPrefix = '+';
+            break;
+          case 'referral_bonus':
+            icon = 'fa-users';
+            iconBg = '#e0e7ff';
+            iconColor = '#6366f1';
+            amountClass = 'credit';
+            amountPrefix = '+';
+            break;
+          case 'admin_fund':
+            icon = 'fa-user-shield';
+            iconBg = '#dbeafe';
+            iconColor = '#2563eb';
+            amountClass = 'credit';
+            amountPrefix = '+';
+            break;
+          default:
+            icon = 'fa-circle';
+            iconBg = '#f3f4f6';
+            iconColor = '#6b7280';
+            amountClass = 'credit';
+            amountPrefix = '+';
+        }
+        
+        const statusClass = tx.status === 'completed' ? 'status-completed' : 
+                           tx.status === 'pending' ? 'status-pending' : 
+                           tx.status === 'failed' ? 'status-failed' : 'status-active';
+        
+        const dateStr = tx.timestamp.toLocaleDateString('en-NG', {
+          year: 'numeric',
+          month: 'short',
+          day: 'numeric',
+          hour: '2-digit',
+          minute: '2-digit'
+        });
+        
+        card.innerHTML = `
+          <div class="transaction-icon" style="background: ${iconBg}; color: ${iconColor};">
+            <i class="fas ${icon}"></i>
+          </div>
+          <div class="transaction-info">
+            <div class="transaction-type">${tx.description || tx.type.replace(/_/g, ' ')}</div>
+            <div class="transaction-date">${dateStr}</div>
+            <span class="transaction-status ${statusClass}">${tx.status || 'completed'}</span>
+          </div>
+          <div class="transaction-amount ${amountClass}">
+            ${amountPrefix}₦${(tx.amount || 0).toLocaleString()}
+          </div>
+        `;
+        
+        transactionsList.appendChild(card);
+      });
+    }
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        loadTransactions();
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    console.log('Finora Transactions Page Ready');
+  </script>
+</body>
+</html>
