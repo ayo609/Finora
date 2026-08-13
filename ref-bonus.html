@@ -1,0 +1,829 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finova Ads/Telecom • Star Bonus</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gold-500: #f59e0b;
+      --gold-100: #fef3c7;
+      --gradient-ads: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #7c3aed 100%);
+      --gradient-gold: linear-gradient(135deg, #f59e0b 0%, #fbbf24 50%, #f59e0b 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background: var(--gradient-dark);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .main-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Stats Overview */
+    .stats-overview {
+      background: var(--gradient-gold);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      color: white;
+      text-align: center;
+    }
+
+    .stats-label {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 0.5rem;
+    }
+
+    .stats-count {
+      font-family: 'Sora', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 0.3rem;
+    }
+
+    .stats-info {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* Star Cards */
+    .star-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border: 2px solid transparent;
+      transition: all 0.3s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .star-card.eligible {
+      border-color: var(--gold-500);
+      background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+    }
+
+    .star-card.claimed {
+      border-color: var(--green-500);
+      background: #f0fdf4;
+    }
+
+    .star-card.locked {
+      border-color: var(--gray-200);
+    }
+
+    .star-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .star-icon {
+      width: 50px;
+      height: 50px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .star-icon.gold {
+      background: var(--gradient-gold);
+      color: white;
+    }
+
+    .star-icon.gray {
+      background: var(--gray-100);
+      color: var(--gray-400);
+    }
+
+    .star-icon.green {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .star-info {
+      flex: 1;
+    }
+
+    .star-level {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.2rem;
+    }
+
+    .star-reward {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-500);
+    }
+
+    .star-progress-info {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      margin-top: 0.3rem;
+    }
+
+    .star-progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--gray-100);
+      border-radius: 10px;
+      overflow: hidden;
+      margin: 0.8rem 0;
+    }
+
+    .star-progress-fill {
+      height: 100%;
+      background: var(--gradient-gold);
+      border-radius: 10px;
+      transition: width 0.5s;
+    }
+
+    .star-progress-fill.completed {
+      background: var(--green-500);
+    }
+
+    .star-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .star-requirement {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .claim-btn {
+      padding: 0.6rem 1.2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .claim-btn.available {
+      background: var(--gradient-gold);
+      color: white;
+      box-shadow: 0 5px 15px rgba(245, 158, 11, 0.3);
+    }
+
+    .claim-btn.available:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(245, 158, 11, 0.4);
+    }
+
+    .claim-btn.claimed {
+      background: var(--green-100);
+      color: var(--green-500);
+      cursor: default;
+    }
+
+    .claim-btn.locked {
+      background: var(--gray-100);
+      color: var(--gray-400);
+      cursor: not-allowed;
+    }
+
+    .claim-status {
+      font-size: 0.7rem;
+      font-weight: 700;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+      text-transform: uppercase;
+    }
+
+    .status-eligible {
+      background: var(--gold-100);
+      color: var(--gold-500);
+    }
+
+    .status-claimed {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .status-locked {
+      background: var(--gray-100);
+      color: var(--gray-500);
+    }
+
+    /* Confirmation Modal */
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .confirm-modal.show {
+      display: flex;
+    }
+
+    .confirm-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      animation: modalIn 0.3s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .confirm-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gold-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .confirm-icon i {
+      color: var(--gold-500);
+      font-size: 1.5rem;
+    }
+
+    .confirm-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirm-text {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .confirm-details {
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      font-size: 0.8rem;
+    }
+
+    .confirm-details div {
+      padding: 0.3rem 0;
+      color: var(--gray-700);
+    }
+
+    .confirm-details strong {
+      color: var(--gray-900);
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .cancel-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gray-100);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-600);
+    }
+
+    .confirm-claim-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gradient-gold);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      color: white;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+    }
+
+    .nav-item span {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .nav-item.active i {
+      color: var(--primary-blue);
+    }
+
+    .nav-item.active span {
+      color: var(--primary-blue);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+    .toast.warning { border-left-color: var(--yellow-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+    .toast.warning .toast-icon { background: var(--yellow-100); color: var(--yellow-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='share.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Star Bonus</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Stats Overview -->
+    <div class="stats-overview">
+      <div class="stats-label">Active Investors</div>
+      <div class="stats-count" id="activeInvestorsCount">0</div>
+      <div class="stats-info">Referred users with active investment plans</div>
+    </div>
+
+    <!-- Star Cards -->
+    <div id="starCardsList">
+      <!-- Star cards will be loaded here -->
+    </div>
+
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-content">
+      <div class="confirm-icon">
+        <i class="fas fa-star"></i>
+      </div>
+      <div class="confirm-title">Claim Star Bonus</div>
+      <div class="confirm-text">Are you sure you want to claim this bonus?</div>
+      <div class="confirm-details">
+        <div><strong>Star Level:</strong> <span id="confirmStarLevel">-</span></div>
+        <div><strong>Bonus Amount:</strong> <span id="confirmBonusAmount">-</span></div>
+        <div><strong>Credited To:</strong> Withdrawal Wallet</div>
+      </div>
+      <div class="confirm-actions">
+        <button class="cancel-btn" onclick="hideConfirmModal()">No, Cancel</button>
+        <button class="confirm-claim-btn" onclick="executeClaim()">Yes, Claim Bonus</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="plans.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Plans</span>
+    </a>
+    <a href="topup.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Top Up</span>
+    </a>
+    <a href="share.html" class="nav-item active">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, getDocs, collection, updateDoc, setDoc, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    const STARS = [
+      { level: 1, investorsRequired: 5, reward: 2000, label: 'Star 1' },
+      { level: 2, investorsRequired: 7, reward: 3000, label: 'Star 2' },
+      { level: 3, investorsRequired: 10, reward: 5000, label: 'Star 3' },
+      { level: 4, investorsRequired: 13, reward: 7000, label: 'Star 4' },
+      { level: 5, investorsRequired: 15, reward: 10000, label: 'Star 5' },
+      { level: 6, investorsRequired: 20, reward: 15000, label: 'Star 6' },
+      { level: 7, investorsRequired: 25, reward: 20000, label: 'Star 7' },
+      { level: 8, investorsRequired: 30, reward: 30000, label: 'Star 8' },
+      { level: 9, investorsRequired: 40, reward: 40000, label: 'Star 9' },
+      { level: 10, investorsRequired: 50, reward: 50000, label: 'Star 10' }
+    ];
+
+    let currentUser = null;
+    let userData = null;
+    let activeInvestors = 0;
+    let claimedStars = [];
+    let pendingStar = null;
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 4000);
+    }
+
+    // Count active investors (referred users with active investments)
+    async function countActiveInvestors() {
+      if (!currentUser) return 0;
+      
+      try {
+        const referralsRef = collection(db, 'users', currentUser.uid, 'referrals');
+        const referralsSnap = await getDocs(referralsRef);
+        
+        let activeCount = 0;
+        
+        for (const refDoc of referralsSnap.docs) {
+          const refData = refDoc.data();
+          const referredUserId = refData.referredUserId;
+          
+          if (referredUserId) {
+            const investmentsRef = collection(db, 'users', referredUserId, 'investments');
+            const investmentsSnap = await getDocs(investmentsRef);
+            
+            investmentsSnap.forEach(inv => {
+              if (inv.data().status === 'active') {
+                activeCount++;
+              }
+            });
+          }
+        }
+        
+        return activeCount;
+      } catch (error) {
+        console.error('Error counting active investors:', error);
+        return 0;
+      }
+    }
+
+    // Load star bonus data
+    async function loadStarBonus() {
+      if (!currentUser) return;
+      
+      try {
+        const userDoc = await getDoc(doc(db, 'users', currentUser.uid));
+        if (userDoc.exists()) {
+          userData = userDoc.data();
+          claimedStars = userData.claimedStars || [];
+          
+          activeInvestors = await countActiveInvestors();
+          document.getElementById('activeInvestorsCount').textContent = activeInvestors;
+          
+          displayStarCards();
+        }
+      } catch (error) {
+        console.error('Error loading star bonus:', error);
+      }
+    }
+
+    // Display star cards
+    function displayStarCards() {
+      const starCardsList = document.getElementById('starCardsList');
+      starCardsList.innerHTML = '';
+      
+      STARS.forEach(star => {
+        const isClaimed = claimedStars.includes(star.level);
+        const isEligible = activeInvestors >= star.investorsRequired;
+        const progress = Math.min((activeInvestors / star.investorsRequired) * 100, 100);
+        
+        let cardClass = 'star-card locked';
+        let iconClass = 'star-icon gray';
+        let iconHtml = '<i class="fas fa-star"></i>';
+        let statusClass = 'status-locked';
+        let statusText = 'Locked';
+        let btnClass = 'claim-btn locked';
+        let btnText = '<i class="fas fa-lock"></i> Locked';
+        let btnDisabled = 'disabled';
+        let btnOnclick = '';
+        
+        if (isClaimed) {
+          cardClass = 'star-card claimed';
+          iconClass = 'star-icon green';
+          iconHtml = '<i class="fas fa-check"></i>';
+          statusClass = 'status-claimed';
+          statusText = 'Claimed';
+          btnClass = 'claim-btn claimed';
+          btnText = '<i class="fas fa-check-circle"></i> Claimed';
+          btnDisabled = 'disabled';
+        } else if (isEligible) {
+          cardClass = 'star-card eligible';
+          iconClass = 'star-icon gold';
+          iconHtml = '<i class="fas fa-star"></i>';
+          statusClass = 'status-eligible';
+          statusText = 'Eligible';
+          btnClass = 'claim-btn available';
+          btnText = '<i class="fas fa-gift"></i> Claim Bonus';
+          btnDisabled = '';
+          btnOnclick = `showConfirmModal(${star.level})`;
+        }
+        
+        const card = document.createElement('div');
+        card.className = cardClass;
+        card.innerHTML = `
+          <div class="star-header">
+            <div class="${iconClass}">
+              ${iconHtml}
+            </div>
+            <div class="star-info">
+              <div class="star-level">${star.label}</div>
+              <div class="star-reward">₦${star.reward.toLocaleString()} daily</div>
+              <div class="star-progress-info">${activeInvestors}/${star.investorsRequired} active investors</div>
+            </div>
+            <span class="claim-status ${statusClass}">${statusText}</span>
+          </div>
+          <div class="star-progress-bar">
+            <div class="star-progress-fill ${isClaimed || isEligible ? 'completed' : ''}" style="width: ${progress}%"></div>
+          </div>
+          <div class="star-footer">
+            <span class="star-requirement">Requires ${star.investorsRequired} active investors</span>
+            <button class="${btnClass}" ${btnDisabled} ${btnOnclick ? `onclick="${btnOnclick}"` : ''}>
+              ${btnText}
+            </button>
+          </div>
+        `;
+        
+        starCardsList.appendChild(card);
+      });
+    }
+
+    // Show confirmation modal
+    window.showConfirmModal = function(starLevel) {
+      const star = STARS.find(s => s.level === starLevel);
+      if (!star) return;
+      
+      pendingStar = star;
+      
+      document.getElementById('confirmStarLevel').textContent = star.label;
+      document.getElementById('confirmBonusAmount').textContent = '₦' + star.reward.toLocaleString() + ' daily';
+      
+      document.getElementById('confirmModal').classList.add('show');
+    };
+
+    window.hideConfirmModal = function() {
+      document.getElementById('confirmModal').classList.remove('show');
+      pendingStar = null;
+    };
+
+    // Execute claim
+    window.executeClaim = async function() {
+      if (!pendingStar || !currentUser) return;
+      
+      hideConfirmModal();
+      
+      const star = pendingStar;
+      
+      try {
+        // Update user's claimed stars
+        const updatedClaimedStars = [...claimedStars, star.level];
+        
+        await updateDoc(doc(db, 'users', currentUser.uid), {
+          claimedStars: updatedClaimedStars,
+          withdrawalWallet: increment(star.reward),
+          totalRefEarnings: increment(star.reward),
+          updatedAt: serverTimestamp()
+        });
+        
+        // Add transaction record
+        await setDoc(doc(collection(db, 'users', currentUser.uid, 'transactions')), {
+          type: 'star_bonus',
+          amount: star.reward,
+          wallet: 'withdrawal',
+          status: 'completed',
+          description: `${star.label} Bonus Claimed`,
+          createdAt: serverTimestamp()
+        });
+        
+        showToast('Bonus Claimed!', `₦${star.reward.toLocaleString()} has been credited to your withdrawal wallet`, 'success');
+        
+        // Reload data
+        await loadStarBonus();
+        
+      } catch (error) {
+        console.error('Claim error:', error);
+        showToast('Claim Failed', 'Unable to claim bonus. Please try again.', 'error');
+      }
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        currentUser = user;
+        loadStarBonus();
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    console.log('Finova Ads/Telecom Star Bonus Page Ready');
+  </script>
+</body>
+</html>
