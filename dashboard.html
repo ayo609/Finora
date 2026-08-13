@@ -1,0 +1,932 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Dashboard</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background: white;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .header-logo {
+      width: 42px;
+      height: 42px;
+      background: var(--gradient-dark);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .header-logo i {
+      color: white;
+      font-size: 1.1rem;
+    }
+
+    .header-brand h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--navy-blue);
+      line-height: 1;
+    }
+
+    .header-brand p {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .logout-btn {
+      background: none;
+      border: none;
+      color: var(--gray-500);
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0.4rem;
+      transition: color 0.3s;
+    }
+
+    .logout-btn:hover {
+      color: var(--red-500);
+    }
+
+    .main-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .welcome-section {
+      margin-bottom: 1.2rem;
+    }
+
+    .welcome-text {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.3rem;
+    }
+
+    .welcome-subtext {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+
+    .welcome-subtext .divider {
+      color: var(--gray-300);
+    }
+
+    .user-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+      color: var(--primary-blue);
+      font-weight: 600;
+    }
+
+    .user-phone {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .portfolio-card {
+      background: var(--gradient-dark);
+      border-radius: 20px;
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .portfolio-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 100%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.15) 0%, transparent 70%);
+    }
+
+    .portfolio-label {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .portfolio-amount {
+      font-family: 'Sora', sans-serif;
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: 1.2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .portfolio-actions {
+      display: flex;
+      gap: 0.8rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.7rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      transition: all 0.3s;
+      font-family: 'Manrope', sans-serif;
+      text-decoration: none;
+    }
+
+    .fund-btn {
+      background: white;
+      color: var(--navy-blue);
+    }
+
+    .fund-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.3);
+    }
+
+    .cashout-btn {
+      background: var(--sky-blue);
+      color: white;
+    }
+
+    .cashout-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(56, 189, 248, 0.3);
+    }
+
+    .wallet-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .wallet-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      border: 1px solid var(--gray-100);
+    }
+
+    .wallet-label {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      margin-bottom: 0.4rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .wallet-amount {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .wallet-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .funding-icon {
+      background: #dbeafe;
+      color: var(--primary-blue);
+    }
+
+    .payout-icon {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .quick-actions {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .section-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+    }
+
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0.8rem;
+    }
+
+    .action-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 0.5rem;
+      border-radius: 12px;
+      text-decoration: none;
+    }
+
+    .action-item:hover {
+      background: var(--gray-50);
+    }
+
+    .action-icon {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+
+    .action-item span {
+      font-size: 0.7rem;
+      color: var(--gray-600);
+      font-weight: 600;
+    }
+
+    .investments-section {
+      margin-bottom: 1rem;
+    }
+
+    .investment-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .investment-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.8rem;
+    }
+
+    .investment-plan {
+      font-weight: 700;
+      color: var(--gray-900);
+      font-size: 0.9rem;
+    }
+
+    .investment-status {
+      font-size: 0.7rem;
+      font-weight: 600;
+      padding: 0.3rem 0.6rem;
+      border-radius: 20px;
+    }
+
+    .status-active {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .status-matured {
+      background: #dbeafe;
+      color: var(--primary-blue);
+    }
+
+    .investment-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 0.8rem;
+    }
+
+    .investment-amount {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .investment-returns {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--primary-blue);
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 6px;
+      background: var(--gray-100);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: var(--gradient-blue);
+      border-radius: 10px;
+      transition: width 0.3s;
+    }
+
+    .investment-timer {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+      text-align: right;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+      transition: color 0.3s;
+    }
+
+    .nav-item span {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .nav-item.active i {
+      color: var(--primary-blue);
+    }
+
+    .nav-item.active span {
+      color: var(--primary-blue);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+    .toast.warning { border-left-color: var(--yellow-500); }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .toast.success .toast-icon {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .toast.error .toast-icon {
+      background: var(--red-100);
+      color: var(--red-500);
+    }
+
+    .toast.warning .toast-icon {
+      background: var(--yellow-100);
+      color: var(--yellow-500);
+    }
+
+    .toast-content h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.1rem;
+    }
+
+    .toast-content p {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+    }
+
+    @media (max-width: 400px) {
+      .actions-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="header-left">
+      <div class="header-logo">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="header-brand">
+        <h1>Finora</h1>
+        <p>Smart Wealth Platform</p>
+      </div>
+    </div>
+    <div class="header-right">
+      <button class="logout-btn" id="logoutBtn" title="Logout">
+        <i class="fas fa-sign-out-alt"></i>
+      </button>
+    </div>
+  </div>
+
+  <div class="main-container">
+    
+    <div class="welcome-section">
+      <div class="welcome-text" id="welcomeText">Welcome</div>
+      <div class="welcome-subtext">
+        <span class="user-tag">
+          <i class="fas fa-at"></i>
+          <span id="userUsername">@username</span>
+        </span>
+        <span class="divider">|</span>
+        <span class="user-phone">
+          <i class="fas fa-phone"></i>
+          <span id="userPhone">Phone not set</span>
+        </span>
+      </div>
+    </div>
+
+    <div class="portfolio-card">
+      <div class="portfolio-label">Portfolio Value</div>
+      <div class="portfolio-amount" id="portfolioAmount">₦0</div>
+      <div class="portfolio-actions">
+        <a href="topup.html" class="action-btn fund-btn">
+          <i class="fas fa-plus-circle"></i> Fund
+        </a>
+        <a href="cashout.html" class="action-btn cashout-btn">
+          <i class="fas fa-arrow-down"></i> Cashout
+        </a>
+      </div>
+    </div>
+
+    <div class="wallet-grid">
+      <div class="wallet-card">
+        <div class="wallet-icon funding-icon">
+          <i class="fas fa-wallet"></i>
+        </div>
+        <div class="wallet-label">Funding Account</div>
+        <div class="wallet-amount" id="fundingWallet">₦0</div>
+      </div>
+      <div class="wallet-card">
+        <div class="wallet-icon payout-icon">
+          <i class="fas fa-money-bill-wave"></i>
+        </div>
+        <div class="wallet-label">Payout Account</div>
+        <div class="wallet-amount" id="payoutWallet">₦0</div>
+      </div>
+    </div>
+
+    <div class="quick-actions">
+      <div class="section-title">Quick Actions</div>
+      <div class="actions-grid">
+        <a href="topup.html" class="action-item">
+          <div class="action-icon" style="background: #dbeafe; color: #2563eb;">
+            <i class="fas fa-credit-card"></i>
+          </div>
+          <span>Top Up</span>
+        </a>
+        <a href="plans.html" class="action-item">
+          <div class="action-icon" style="background: #d1fae5; color: #10b981;">
+            <i class="fas fa-chart-bar"></i>
+          </div>
+          <span>Invest</span>
+        </a>
+        <a href="share.html" class="action-item">
+          <div class="action-icon" style="background: #fef3c7; color: #f59e0b;">
+            <i class="fas fa-users"></i>
+          </div>
+          <span>Invite</span>
+        </a>
+        <a href="transactions.html" class="action-item">
+          <div class="action-icon" style="background: #fee2e2; color: #ef4444;">
+            <i class="fas fa-receipt"></i>
+          </div>
+          <span>Records</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="investments-section">
+      <div class="section-title">Running Investments</div>
+      <div id="investmentsList">
+        <div class="investment-card">
+          <div class="investment-header">
+            <div class="investment-plan">No Active Investments</div>
+            <div class="investment-status status-active">Empty</div>
+          </div>
+          <div class="investment-details">
+            <span class="investment-amount">Start investing today</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item active">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="plans.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Plans</span>
+    </a>
+    <a href="topup.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Top Up</span>
+    </a>
+    <a href="share.html" class="nav-item">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </a>
+    <a href="profile.html" class="nav-item">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, getDocs, collection, updateDoc, setDoc, serverTimestamp, increment } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    window.showToast = function(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon">
+          <i class="fas ${icons[type]}"></i>
+        </div>
+        <div class="toast-content">
+          <h4>${title}</h4>
+          <p>${message}</p>
+        </div>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 4000);
+    };
+
+    // Check and credit matured investments
+    async function checkMaturedInvestments(userId) {
+      try {
+        const investmentsRef = collection(db, 'users', userId, 'investments');
+        const investmentsSnap = await getDocs(investmentsRef);
+        
+        const now = new Date();
+        
+        investmentsSnap.forEach(async (docSnap) => {
+          const data = docSnap.data();
+          
+          // Skip if already matured
+          if (data.status === 'matured' || data.status === 'credited') return;
+          
+          const maturityDate = data.maturityDate?.toDate?.() || new Date(data.maturityDate);
+          
+          // Check if investment has reached maturity
+          if (now >= maturityDate && data.status === 'active') {
+            const expectedReturns = data.expectedReturns || 0;
+            
+            try {
+              // Update investment status
+              await updateDoc(doc(db, 'users', userId, 'investments', docSnap.id), {
+                status: 'matured',
+                creditedAt: serverTimestamp(),
+                updatedAt: serverTimestamp()
+              });
+              
+              // Credit withdrawal wallet
+              await updateDoc(doc(db, 'users', userId), {
+                withdrawalWallet: increment(expectedReturns),
+                totalEarnings: increment(expectedReturns),
+                updatedAt: serverTimestamp()
+              });
+              
+              // Add transaction record
+              await setDoc(doc(collection(db, 'users', userId, 'transactions')), {
+                type: 'investment_return',
+                amount: expectedReturns,
+                wallet: 'withdrawal',
+                status: 'completed',
+                description: `Investment Return - ${data.plan || 'Plan'} Matured`,
+                createdAt: serverTimestamp()
+              });
+              
+              showToast('Investment Matured', `₦${expectedReturns.toLocaleString()} has been credited to your withdrawal wallet`, 'success');
+              
+            } catch (error) {
+              console.error('Error crediting matured investment:', error);
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Error checking matured investments:', error);
+      }
+    }
+
+    // Load investments
+    async function loadInvestments(userId) {
+      try {
+        const investmentsRef = collection(db, 'users', userId, 'investments');
+        const investmentsSnap = await getDocs(investmentsRef);
+        
+        const investmentsList = document.getElementById('investmentsList');
+        
+        if (investmentsSnap.empty) {
+          investmentsList.innerHTML = `
+            <div class="investment-card">
+              <div class="investment-header">
+                <div class="investment-plan">No Active Investments</div>
+                <div class="investment-status status-active">Empty</div>
+              </div>
+              <div class="investment-details">
+                <span class="investment-amount">Start investing today</span>
+              </div>
+            </div>
+          `;
+        } else {
+          investmentsList.innerHTML = '';
+          
+          const now = new Date();
+          
+          investmentsSnap.forEach((docSnap) => {
+            const data = docSnap.data();
+            const maturityDate = data.maturityDate?.toDate?.() || new Date(data.maturityDate);
+            const startDate = data.startDate?.toDate?.() || new Date(data.startDate);
+            const totalDuration = 5 * 24 * 60 * 60 * 1000;
+            const elapsed = now - startDate;
+            const progress = Math.min((elapsed / totalDuration) * 100, 100);
+            const remaining = Math.max(maturityDate - now, 0);
+            const remainingDays = Math.ceil(remaining / (24 * 60 * 60 * 1000));
+            
+            const isMatured = data.status === 'matured' || data.status === 'credited';
+            
+            const investmentCard = document.createElement('div');
+            investmentCard.className = 'investment-card';
+            investmentCard.innerHTML = `
+              <div class="investment-header">
+                <div class="investment-plan">${data.plan || 'Investment'} Plan</div>
+                <div class="investment-status ${isMatured ? 'status-matured' : 'status-active'}">
+                  ${isMatured ? 'Matured' : 'Active'}
+                </div>
+              </div>
+              <div class="investment-details">
+                <span class="investment-amount">Invested: ₦${(data.amount || 0).toLocaleString()}</span>
+                <span class="investment-returns">Returns: ₦${(data.expectedReturns || 0).toLocaleString()}</span>
+              </div>
+              <div class="progress-bar">
+                <div class="progress-fill" style="width: ${progress}%"></div>
+              </div>
+              <div class="investment-timer">
+                ${isMatured ? 'Completed' : `${remainingDays} day${remainingDays !== 1 ? 's' : ''} remaining`}
+              </div>
+            `;
+            
+            investmentsList.appendChild(investmentCard);
+          });
+        }
+      } catch (error) {
+        console.error('Error loading investments:', error);
+      }
+    }
+
+    // Logout
+    document.getElementById('logoutBtn').addEventListener('click', async () => {
+      try {
+        await signOut(auth);
+        showToast('Logged Out', 'You have been logged out successfully', 'success');
+        setTimeout(() => {
+          window.location.href = 'login.html';
+        }, 1000);
+      } catch (error) {
+        console.error('Logout error:', error);
+        showToast('Error', 'Failed to logout', 'error');
+      }
+    });
+
+    // Check auth state
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          // Check and credit matured investments first
+          await checkMaturedInvestments(user.uid);
+          
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            
+            document.getElementById('welcomeText').textContent = 'Welcome, ' + (userData.fullName || 'User');
+            document.getElementById('userUsername').textContent = userData.username || 'username';
+            document.getElementById('userPhone').textContent = userData.phone || 'Phone not set';
+            
+            const depositWallet = userData.depositWallet || 0;
+            const withdrawalWallet = userData.withdrawalWallet || 0;
+            const totalBalance = depositWallet + withdrawalWallet;
+            
+            document.getElementById('fundingWallet').textContent = '₦' + depositWallet.toLocaleString();
+            document.getElementById('payoutWallet').textContent = '₦' + withdrawalWallet.toLocaleString();
+            document.getElementById('portfolioAmount').textContent = '₦' + totalBalance.toLocaleString();
+            
+            await loadInvestments(user.uid);
+            
+            showToast('Welcome Back!', 'Dashboard loaded successfully', 'success');
+          }
+        } catch (error) {
+          console.error('Error loading user data:', error);
+          showToast('Error', 'Failed to load dashboard', 'error');
+        }
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    console.log('Finora Dashboard Ready with ROI Auto-Crediting');
+  </script>
+</body>
+</html>
