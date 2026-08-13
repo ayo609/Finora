@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Bank Details</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background: white;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--gray-600);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy-blue);
+    }
+
+    .main-container {
+      max-width: 550px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Bank Card Preview */
+    .bank-card-preview {
+      background: var(--gradient-dark);
+      border-radius: 20px;
+      padding: 1.5rem;
+      color: white;
+      margin-bottom: 1rem;
+      position: relative;
+      overflow: hidden;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .bank-card-preview::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      right: -20%;
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+      border-radius: 50%;
+    }
+
+    .bank-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bank-card-label {
+      font-size: 0.7rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .bank-card-chip {
+      width: 40px;
+      height: 30px;
+      background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0.8;
+    }
+
+    .bank-card-chip i {
+      font-size: 0.8rem;
+      color: rgba(0, 0, 0, 0.3);
+    }
+
+    .bank-card-number {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      position: relative;
+      z-index: 1;
+      margin: 1rem 0;
+    }
+
+    .bank-card-bottom {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      position: relative;
+      z-index: 1;
+    }
+
+    .bank-card-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .bank-card-bank {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .bank-card-placeholder {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.85rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Form Section */
+    .form-section {
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.4rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.75rem 0.8rem 0.75rem 2.5rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    /* Bank Select */
+    .bank-select-wrapper {
+      position: relative;
+    }
+
+    .bank-select {
+      width: 100%;
+      padding: 0.75rem 0.8rem 0.75rem 2.5rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      transition: all 0.3s;
+      background: white;
+      appearance: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+
+    .bank-select:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .bank-select-arrow {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      pointer-events: none;
+      font-size: 0.8rem;
+    }
+
+    .save-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .save-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .save-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    .default-badge {
+      display: none;
+      align-items: center;
+      gap: 0.3rem;
+      font-size: 0.7rem;
+      color: var(--green-500);
+      font-weight: 600;
+      margin-top: 0.8rem;
+      justify-content: center;
+    }
+
+    /* Confirmation Modal */
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .confirm-modal.show {
+      display: flex;
+    }
+
+    .confirm-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      max-width: 350px;
+      width: 100%;
+      animation: modalIn 0.3s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .confirm-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--yellow-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .confirm-icon i {
+      color: var(--yellow-500);
+      font-size: 1.5rem;
+    }
+
+    .confirm-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirm-text {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 1rem;
+      line-height: 1.5;
+    }
+
+    .confirm-bank-details {
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      font-size: 0.8rem;
+    }
+
+    .confirm-bank-details div {
+      padding: 0.3rem 0;
+      color: var(--gray-700);
+    }
+
+    .confirm-bank-details strong {
+      color: var(--gray-900);
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .reject-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gray-100);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-600);
+    }
+
+    .accept-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      color: white;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+    }
+
+    .nav-item span {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .nav-item.active i { color: var(--primary-blue); }
+    .nav-item.active span { color: var(--primary-blue); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='profile.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Bank Details</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Bank Card Preview -->
+    <div class="bank-card-preview" id="bankCardPreview">
+      <div class="bank-card-placeholder" id="cardPlaceholder">
+        <i class="fas fa-credit-card" style="font-size: 1.5rem; margin-bottom: 0.5rem; display: block;"></i>
+        No bank account added yet
+      </div>
+      
+      <div id="cardContent" style="display: none;">
+        <div class="bank-card-top">
+          <span class="bank-card-label">Default Withdrawal Account</span>
+          <div class="bank-card-chip">
+            <i class="fas fa-wifi"></i>
+          </div>
+        </div>
+        <div class="bank-card-number" id="cardAccountNumber">0000000000</div>
+        <div class="bank-card-bottom">
+          <div>
+            <div class="bank-card-name" id="cardAccountName">Account Name</div>
+            <div class="bank-card-bank" id="cardBankName">Bank Name</div>
+          </div>
+          <i class="fas fa-check-circle" style="color: #6ee7b7; font-size: 1.2rem;"></i>
+        </div>
+      </div>
+    </div>
+
+    <!-- Form -->
+    <div class="form-section">
+      <div class="form-title">Add Bank Account</div>
+
+      <div class="form-group">
+        <label>Select Bank</label>
+        <div class="bank-select-wrapper">
+          <i class="fas fa-university input-icon" style="position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: var(--gray-400); z-index: 1;"></i>
+          <select class="bank-select" id="bankSelect">
+            <option value="">Choose your bank</option>
+            <option value="Access Bank">Access Bank</option>
+            <option value="Carbon">Carbon</option>
+            <option value="Citibank Nigeria">Citibank Nigeria</option>
+            <option value="Ecobank Nigeria">Ecobank Nigeria</option>
+            <option value="Fidelity Bank">Fidelity Bank</option>
+            <option value="First Bank of Nigeria">First Bank of Nigeria</option>
+            <option value="First City Monument Bank">First City Monument Bank</option>
+            <option value="Globus Bank">Globus Bank</option>
+            <option value="Guaranty Trust Bank">Guaranty Trust Bank</option>
+            <option value="Heritage Bank">Heritage Bank</option>
+            <option value="Jaiz Bank">Jaiz Bank</option>
+            <option value="Keystone Bank">Keystone Bank</option>
+            <option value="Kuda Bank">Kuda Bank</option>
+            <option value="Lotust Bank">Lotust Bank</option>
+            <option value="Moniepoint">Moniepoint</option>
+            <option value="Opay">Opay</option>
+            <option value="Palmpay">Palmpay</option>
+            <option value="Parallex Bank">Parallex Bank</option>
+            <option value="Polaris Bank">Polaris Bank</option>
+            <option value="Premium Trust Bank">Premium Trust Bank</option>
+            <option value="Providus Bank">Providus Bank</option>
+            <option value="Rubies Bank">Rubies Bank</option>
+            <option value="Signature Bank">Signature Bank</option>
+            <option value="Stanbic IBTC Bank">Stanbic IBTC Bank</option>
+            <option value="Standard Chartered Bank">Standard Chartered Bank</option>
+            <option value="Sterling Bank">Sterling Bank</option>
+            <option value="SunTrust Bank">SunTrust Bank</option>
+            <option value="TAJ Bank">TAJ Bank</option>
+            <option value="Titan Trust Bank">Titan Trust Bank</option>
+            <option value="Union Bank of Nigeria">Union Bank of Nigeria</option>
+            <option value="United Bank for Africa">United Bank for Africa</option>
+            <option value="Unity Bank">Unity Bank</option>
+            <option value="VFD Microfinance Bank">VFD Microfinance Bank</option>
+            <option value="Wema Bank">Wema Bank</option>
+            <option value="Zenith Bank">Zenith Bank</option>
+            <option value="AB Microfinance Bank">AB Microfinance Bank</option>
+            <option value="Accion Microfinance Bank">Accion Microfinance Bank</option>
+            <option value="Addosser Microfinance Bank">Addosser Microfinance Bank</option>
+            <option value="Baobab Microfinance Bank">Baobab Microfinance Bank</option>
+            <option value="Bosak Microfinance Bank">Bosak Microfinance Bank</option>
+            <option value="Cellulant Microfinance Bank">Cellulant Microfinance Bank</option>
+            <option value="Cit Microfinance Bank">Cit Microfinance Bank</option>
+            <option value="Credit Afrique Microfinance Bank">Credit Afrique Microfinance Bank</option>
+            <option value="Ekondo Microfinance Bank">Ekondo Microfinance Bank</option>
+            <option value="Empire Trust Microfinance Bank">Empire Trust Microfinance Bank</option>
+            <option value="Fast Microfinance Bank">Fast Microfinance Bank</option>
+            <option value="Firmus Microfinance Bank">Firmus Microfinance Bank</option>
+            <option value="Gateway Microfinance Bank">Gateway Microfinance Bank</option>
+            <option value="Mainstreet Microfinance Bank">Mainstreet Microfinance Bank</option>
+            <option value="NPF Microfinance Bank">NPF Microfinance Bank</option>
+          </select>
+          <i class="fas fa-chevron-down bank-select-arrow"></i>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Account Number</label>
+        <div class="input-wrapper">
+          <i class="fas fa-hashtag input-icon"></i>
+          <input type="tel" class="form-input" id="accountNumber" placeholder="Enter 10-digit account number" maxlength="10" inputmode="numeric" pattern="[0-9]*">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Account Name</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" class="form-input" id="accountName" placeholder="Enter account name">
+        </div>
+      </div>
+
+      <button class="save-btn" id="saveBtn" onclick="showConfirmation()">
+        <i class="fas fa-save"></i> Save as Default
+      </button>
+
+      <div class="default-badge" id="defaultBadge">
+        <i class="fas fa-check-circle"></i> This account is set as default for withdrawals
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-content">
+      <div class="confirm-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="confirm-title">Confirm Bank Details</div>
+      <div class="confirm-text">Please verify that the following bank details are correct before saving:</div>
+      <div class="confirm-bank-details">
+        <div><strong>Bank:</strong> <span id="confirmBankName">-</span></div>
+        <div><strong>Account Number:</strong> <span id="confirmAccountNumber">-</span></div>
+        <div><strong>Account Name:</strong> <span id="confirmAccountName">-</span></div>
+      </div>
+      <div class="confirm-actions">
+        <button class="reject-btn" onclick="hideConfirmation()">Reject</button>
+        <button class="accept-btn" onclick="acceptAndSave()">Accept & Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="plans.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Plans</span>
+    </a>
+    <a href="topup.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Top Up</span>
+    </a>
+    <a href="share.html" class="nav-item">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 3000);
+    }
+
+    // Live preview update
+    document.getElementById('accountNumber').addEventListener('input', function() {
+      if (this.value.length >= 10) {
+        document.getElementById('cardAccountNumber').textContent = this.value.replace(/(\d{4})(?=\d)/g, '$1 ');
+      }
+    });
+
+    document.getElementById('accountName').addEventListener('input', function() {
+      document.getElementById('cardAccountName').textContent = this.value || 'Account Name';
+    });
+
+    document.getElementById('bankSelect').addEventListener('change', function() {
+      document.getElementById('cardBankName').textContent = this.value || 'Bank Name';
+    });
+
+    function showConfirmation() {
+      if (!currentUser) return;
+      
+      const bankName = document.getElementById('bankSelect').value;
+      const accountNumber = document.getElementById('accountNumber').value.trim();
+      const accountName = document.getElementById('accountName').value.trim();
+      
+      if (!bankName) {
+        showToast('Bank Required', 'Please select your bank', 'error');
+        return;
+      }
+      
+      if (accountNumber.length !== 10) {
+        showToast('Invalid Account Number', 'Account number must be 10 digits', 'error');
+        return;
+      }
+      
+      if (!accountName || accountName.length < 3) {
+        showToast('Invalid Name', 'Please enter account name', 'error');
+        return;
+      }
+      
+      // Populate confirmation modal
+      document.getElementById('confirmBankName').textContent = bankName;
+      document.getElementById('confirmAccountNumber').textContent = accountNumber;
+      document.getElementById('confirmAccountName').textContent = accountName;
+      
+      // Show modal
+      document.getElementById('confirmModal').classList.add('show');
+    }
+
+    function hideConfirmation() {
+      document.getElementById('confirmModal').classList.remove('show');
+    }
+
+    async function acceptAndSave() {
+      if (!currentUser) return;
+      
+      const bankName = document.getElementById('bankSelect').value;
+      const accountNumber = document.getElementById('accountNumber').value.trim();
+      const accountName = document.getElementById('accountName').value.trim();
+      
+      hideConfirmation();
+      
+      const saveBtn = document.getElementById('saveBtn');
+      saveBtn.disabled = true;
+      saveBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+      
+      try {
+        await updateDoc(doc(db, 'users', currentUser.uid), {
+          bankDetails: {
+            bankName: bankName,
+            accountNumber: accountNumber,
+            accountName: accountName,
+            isDefault: true,
+            updatedAt: new Date().toISOString()
+          }
+        });
+        
+        // Show card
+        document.getElementById('cardPlaceholder').style.display = 'none';
+        document.getElementById('cardContent').style.display = 'block';
+        document.getElementById('cardAccountNumber').textContent = accountNumber.replace(/(\d{4})(?=\d)/g, '$1 ');
+        document.getElementById('cardAccountName').textContent = accountName;
+        document.getElementById('cardBankName').textContent = bankName;
+        
+        // Show default badge
+        document.getElementById('defaultBadge').style.display = 'flex';
+        
+        // Show success toast
+        showToast('Bank Details Saved', 'Your bank details have been saved as default for withdrawals', 'success');
+        
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Update Bank Details';
+        
+      } catch (error) {
+        console.error('Error saving bank:', error);
+        showToast('Error', 'Failed to save bank details', 'error');
+        saveBtn.disabled = false;
+        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save as Default';
+      }
+    }
+
+    // Make functions globally accessible
+    window.showConfirmation = showConfirmation;
+    window.hideConfirmation = hideConfirmation;
+    window.acceptAndSave = acceptAndSave;
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            
+            if (userData.bankDetails) {
+              const bank = userData.bankDetails;
+              
+              document.getElementById('bankSelect').value = bank.bankName || '';
+              document.getElementById('accountNumber').value = bank.accountNumber || '';
+              document.getElementById('accountName').value = bank.accountName || '';
+              
+              document.getElementById('cardPlaceholder').style.display = 'none';
+              document.getElementById('cardContent').style.display = 'block';
+              document.getElementById('cardAccountNumber').textContent = (bank.accountNumber || '').replace(/(\d{4})(?=\d)/g, '$1 ');
+              document.getElementById('cardAccountName').textContent = bank.accountName || 'Account Name';
+              document.getElementById('cardBankName').textContent = bank.bankName || 'Bank Name';
+              
+              document.getElementById('defaultBadge').style.display = 'flex';
+              document.getElementById('saveBtn').innerHTML = '<i class="fas fa-save"></i> Update Bank Details';
+            }
+          }
+        } catch (error) {
+          console.error('Error loading bank details:', error);
+        }
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    console.log('Finora Bank Details Page Ready');
+  </script>
+</body>
+</html>
