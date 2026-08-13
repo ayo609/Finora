@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Withdrawal PIN</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background: white;
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: var(--gray-600);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--navy-blue);
+    }
+
+    .main-container {
+      max-width: 450px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* PIN Display */
+    .pin-display-section {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .pin-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-blue);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .pin-icon i {
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    .pin-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.3rem;
+    }
+
+    .pin-subtitle {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+    }
+
+    .pin-dots {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .pin-dot {
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      border: 2px solid var(--gray-300);
+      transition: all 0.3s;
+    }
+
+    .pin-dot.filled {
+      background: var(--primary-blue);
+      border-color: var(--primary-blue);
+      transform: scale(1.1);
+      box-shadow: 0 0 10px rgba(37, 99, 235, 0.3);
+    }
+
+    /* PIN Stage Indicator */
+    .pin-stage {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .pin-stage span {
+      color: var(--primary-blue);
+    }
+
+    /* Numeric Keypad */
+    .keypad {
+      background: white;
+      border-radius: 24px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    }
+
+    .keypad-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0.8rem;
+    }
+
+    .keypad-btn {
+      padding: 1.2rem;
+      border: none;
+      border-radius: 16px;
+      background: var(--gray-50);
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gray-800);
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: 'Sora', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .keypad-btn:hover {
+      background: var(--gray-100);
+    }
+
+    .keypad-btn:active {
+      transform: scale(0.95);
+      background: var(--gray-200);
+    }
+
+    .keypad-btn.empty {
+      background: transparent;
+      cursor: default;
+    }
+
+    .keypad-btn.delete-btn {
+      background: transparent;
+      color: var(--gray-500);
+      font-size: 1.2rem;
+    }
+
+    .keypad-btn.delete-btn:hover {
+      background: var(--red-100);
+      color: var(--red-500);
+    }
+
+    /* Password Verification Section (for reset) */
+    .password-section {
+      display: none;
+      background: white;
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+      margin-bottom: 1rem;
+    }
+
+    .password-section.show {
+      display: block;
+    }
+
+    .password-label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.4rem;
+    }
+
+    .password-input-wrapper {
+      position: relative;
+    }
+
+    .password-input {
+      width: 100%;
+      padding: 0.8rem 2.5rem 0.8rem 1rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.9rem;
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .password-input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 0.9rem;
+    }
+
+    .verify-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      margin-top: 1rem;
+      transition: all 0.3s;
+    }
+
+    .verify-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .verify-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Action Buttons */
+    .action-buttons {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .action-btn {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .set-pin-btn {
+      background: var(--gradient-blue);
+      color: white;
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .reset-pin-btn {
+      background: var(--gray-100);
+      color: var(--gray-600);
+    }
+
+    .action-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+    }
+
+    .action-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Bottom Navigation */
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+    }
+
+    .nav-item span {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .nav-item.active i { color: var(--primary-blue); }
+    .nav-item.active span { color: var(--primary-blue); }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='profile.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Withdrawal PIN</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Password Verification (for reset) -->
+    <div class="password-section" id="passwordSection">
+      <div class="password-label">Enter Login Password to Reset PIN</div>
+      <div class="password-input-wrapper">
+        <input type="password" class="password-input" id="loginPassword" placeholder="Enter your password">
+        <button class="password-toggle-btn" onclick="togglePassword()">
+          <i class="fas fa-eye" id="passwordToggleIcon"></i>
+        </button>
+      </div>
+      <button class="verify-btn" id="verifyBtn" onclick="verifyPassword()">
+        <i class="fas fa-check-circle"></i> Verify Password
+      </button>
+    </div>
+
+    <!-- PIN Display -->
+    <div class="pin-display-section">
+      <div class="pin-icon">
+        <i class="fas fa-shield-alt"></i>
+      </div>
+      <div class="pin-title" id="pinTitle">Set Your PIN</div>
+      <div class="pin-subtitle" id="pinSubtitle">Enter a 4-digit PIN to secure withdrawals</div>
+      
+      <div class="pin-dots">
+        <div class="pin-dot" id="dot1"></div>
+        <div class="pin-dot" id="dot2"></div>
+        <div class="pin-dot" id="dot3"></div>
+        <div class="pin-dot" id="dot4"></div>
+      </div>
+      
+      <div class="pin-stage" id="pinStage">Enter <span>New PIN</span></div>
+    </div>
+
+    <!-- Numeric Keypad -->
+    <div class="keypad">
+      <div class="keypad-grid">
+        <button class="keypad-btn" onclick="pressKey('1')">1</button>
+        <button class="keypad-btn" onclick="pressKey('2')">2</button>
+        <button class="keypad-btn" onclick="pressKey('3')">3</button>
+        <button class="keypad-btn" onclick="pressKey('4')">4</button>
+        <button class="keypad-btn" onclick="pressKey('5')">5</button>
+        <button class="keypad-btn" onclick="pressKey('6')">6</button>
+        <button class="keypad-btn" onclick="pressKey('7')">7</button>
+        <button class="keypad-btn" onclick="pressKey('8')">8</button>
+        <button class="keypad-btn" onclick="pressKey('9')">9</button>
+        <button class="keypad-btn empty"></button>
+        <button class="keypad-btn" onclick="pressKey('0')">0</button>
+        <button class="keypad-btn delete-btn" onclick="deleteKey()">
+          <i class="fas fa-delete-left"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons" id="actionButtons">
+      <button class="action-btn set-pin-btn" id="setPinBtn" onclick="setPin()" disabled>
+        <i class="fas fa-lock"></i> Set PIN
+      </button>
+      <button class="action-btn reset-pin-btn" id="resetPinBtn" onclick="resetPin()">
+        <i class="fas fa-rotate"></i> Reset PIN
+      </button>
+    </div>
+
+  </div>
+
+  <!-- Bottom Navigation -->
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="plans.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Plans</span>
+    </a>
+    <a href="topup.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Top Up</span>
+    </a>
+    <a href="share.html" class="nav-item">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let currentUser = null;
+    let userEmail = null;
+    let hasExistingPin = false;
+    let pinStage = 'new'; // 'new', 'confirm', 'done'
+    let newPin = '';
+    let confirmPin = '';
+    let isResetMode = false;
+    let isPasswordVerified = false;
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 3000);
+    }
+
+    function togglePassword() {
+      const input = document.getElementById('loginPassword');
+      const icon = document.getElementById('passwordToggleIcon');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    }
+
+    function pressKey(key) {
+      if (pinStage === 'new' && newPin.length < 4) {
+        newPin += key;
+        updateDots(newPin.length);
+      } else if (pinStage === 'confirm' && confirmPin.length < 4) {
+        confirmPin += key;
+        updateDots(confirmPin.length);
+      }
+      
+      checkPinComplete();
+    }
+
+    function deleteKey() {
+      if (pinStage === 'new' && newPin.length > 0) {
+        newPin = newPin.slice(0, -1);
+        updateDots(newPin.length);
+      } else if (pinStage === 'confirm' && confirmPin.length > 0) {
+        confirmPin = confirmPin.slice(0, -1);
+        updateDots(confirmPin.length);
+      }
+      
+      checkPinComplete();
+    }
+
+    function updateDots(count) {
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById('dot' + i);
+        if (i <= count) {
+          dot.classList.add('filled');
+        } else {
+          dot.classList.remove('filled');
+        }
+      }
+    }
+
+    function checkPinComplete() {
+      const setPinBtn = document.getElementById('setPinBtn');
+      
+      if (pinStage === 'new' && newPin.length === 4) {
+        // Move to confirm stage
+        setTimeout(() => {
+          pinStage = 'confirm';
+          document.getElementById('pinStage').innerHTML = 'Confirm <span>New PIN</span>';
+          document.getElementById('pinTitle').textContent = 'Confirm Your PIN';
+          document.getElementById('pinSubtitle').textContent = 'Re-enter the same 4-digit PIN';
+          updateDots(0);
+          setPinBtn.textContent = 'Confirm PIN';
+        }, 300);
+      } else if (pinStage === 'confirm' && confirmPin.length === 4) {
+        setPinBtn.disabled = false;
+      }
+    }
+
+    function resetPin() {
+      isResetMode = true;
+      document.getElementById('passwordSection').classList.add('show');
+      document.getElementById('pinTitle').textContent = 'Reset Your PIN';
+      document.getElementById('pinSubtitle').textContent = 'Verify your password to continue';
+      document.getElementById('resetPinBtn').disabled = true;
+    }
+
+    async function verifyPassword() {
+      if (!currentUser || !userEmail) return;
+      
+      const password = document.getElementById('loginPassword').value;
+      
+      if (!password) {
+        showToast('Password Required', 'Please enter your login password', 'error');
+        return;
+      }
+      
+      const verifyBtn = document.getElementById('verifyBtn');
+      verifyBtn.disabled = true;
+      verifyBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+      
+      try {
+        await signInWithEmailAndPassword(auth, userEmail, password);
+        isPasswordVerified = true;
+        
+        document.getElementById('passwordSection').classList.remove('show');
+        document.getElementById('pinTitle').textContent = 'Set New PIN';
+        document.getElementById('pinSubtitle').textContent = 'Enter a new 4-digit PIN';
+        document.getElementById('pinStage').innerHTML = 'Enter <span>New PIN</span>';
+        document.getElementById('resetPinBtn').disabled = false;
+        
+        showToast('Verified', 'Password verified successfully', 'success');
+        
+      } catch (error) {
+        console.error('Password verification error:', error);
+        showToast('Verification Failed', 'Incorrect password. Please try again.', 'error');
+        verifyBtn.disabled = false;
+        verifyBtn.innerHTML = '<i class="fas fa-check-circle"></i> Verify Password';
+      }
+    }
+
+    async function setPin() {
+      if (!currentUser) return;
+      
+      if (pinStage === 'confirm' && confirmPin.length === 4) {
+        if (newPin !== confirmPin) {
+          showToast('PIN Mismatch', 'PINs do not match. Please try again.', 'error');
+          // Reset
+          newPin = '';
+          confirmPin = '';
+          pinStage = 'new';
+          updateDots(0);
+          document.getElementById('pinStage').innerHTML = 'Enter <span>New PIN</span>';
+          document.getElementById('pinTitle').textContent = 'Set Your PIN';
+          document.getElementById('pinSubtitle').textContent = 'Enter a 4-digit PIN to secure withdrawals';
+          document.getElementById('setPinBtn').textContent = 'Set PIN';
+          document.getElementById('setPinBtn').disabled = true;
+          return;
+        }
+        
+        const setPinBtn = document.getElementById('setPinBtn');
+        setPinBtn.disabled = true;
+        setPinBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+        
+        try {
+          await updateDoc(doc(db, 'users', currentUser.uid), {
+            withdrawalPin: newPin
+          });
+          
+          showToast('PIN Saved', 'Your withdrawal PIN has been set successfully', 'success');
+          
+          setTimeout(() => {
+            window.location.href = 'profile.html';
+          }, 1500);
+          
+        } catch (error) {
+          console.error('Error saving PIN:', error);
+          showToast('Error', 'Failed to save PIN', 'error');
+          setPinBtn.disabled = false;
+          setPinBtn.innerHTML = '<i class="fas fa-lock"></i> Confirm PIN';
+        }
+      }
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        currentUser = user;
+        userEmail = user.email;
+        
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            hasExistingPin = !!userData.withdrawalPin;
+            
+            if (hasExistingPin) {
+              document.getElementById('pinTitle').textContent = 'Change PIN';
+              document.getElementById('pinSubtitle').textContent = 'Reset your existing 4-digit PIN';
+            }
+          }
+        } catch (error) {
+          console.error('Error loading user data:', error);
+        }
+      } else {
+        window.location.href = 'login.html';
+      }
+    });
+
+    console.log('Finora Withdrawal PIN Page Ready');
+  </script>
+</body>
+</html>
