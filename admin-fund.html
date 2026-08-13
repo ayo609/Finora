@@ -1,0 +1,1112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Admin Fund Management</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 20px;
+    }
+
+    .header {
+      background: var(--gradient-dark);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .main-container {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Search Section */
+    .search-section {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .search-bar {
+      position: relative;
+      margin-bottom: 0.8rem;
+    }
+
+    .search-bar input {
+      width: 100%;
+      padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .search-bar input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .search-bar i {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.9rem;
+    }
+
+    .search-results {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      max-height: 250px;
+      overflow-y: auto;
+    }
+
+    .search-result-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: 2px solid transparent;
+    }
+
+    .search-result-item:hover {
+      background: var(--gray-50);
+      border-color: var(--primary-blue);
+    }
+
+    .search-result-item.selected {
+      background: #eff6ff;
+      border-color: var(--primary-blue);
+    }
+
+    .result-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--gradient-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .result-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .result-name {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .result-username {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+    }
+
+    .result-balance {
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--primary-blue);
+      text-align: right;
+    }
+
+    /* Selected User Display */
+    .selected-user-card {
+      background: var(--gradient-dark);
+      border-radius: 16px;
+      padding: 1rem;
+      color: white;
+      margin-bottom: 1rem;
+      display: none;
+    }
+
+    .selected-user-card.show {
+      display: block;
+    }
+
+    .selected-user-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .selected-user-avatar {
+      width: 45px;
+      height: 45px;
+      border-radius: 12px;
+      background: var(--gradient-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 1rem;
+    }
+
+    .selected-user-name {
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .selected-user-username {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.7);
+    }
+
+    .selected-user-balances {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+    }
+
+    .selected-balance-item {
+      text-align: center;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 10px;
+      padding: 0.6rem;
+    }
+
+    .selected-balance-label {
+      font-size: 0.65rem;
+      color: rgba(255, 255, 255, 0.7);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 0.2rem;
+    }
+
+    .selected-balance-amount {
+      font-family: 'Sora', sans-serif;
+      font-size: 1rem;
+      font-weight: 700;
+    }
+
+    /* Form Section */
+    .form-section {
+      background: white;
+      border-radius: 16px;
+      padding: 1.2rem;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: none;
+    }
+
+    .form-section.show {
+      display: block;
+    }
+
+    .form-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+    }
+
+    .action-type-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .action-type-option {
+      padding: 0.8rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .action-type-option:hover {
+      border-color: var(--primary-blue);
+    }
+
+    .action-type-option.selected {
+      border-color: var(--primary-blue);
+      background: #eff6ff;
+    }
+
+    .action-type-option.selected.fund {
+      border-color: var(--green-500);
+      background: var(--green-100);
+    }
+
+    .action-type-option.selected.debit {
+      border-color: var(--red-500);
+      background: var(--red-100);
+    }
+
+    .action-type-icon {
+      font-size: 1.2rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .action-type-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--gray-700);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.4rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.9rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 0.8rem 0.8rem 0.8rem 2.5rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 12px;
+      font-size: 0.85rem;
+      font-family: 'Manrope', sans-serif;
+      outline: none;
+      transition: all 0.3s;
+    }
+
+    .form-input:focus {
+      border-color: var(--primary-blue);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .submit-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(37, 99, 235, 0.3);
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+
+    /* Recent Transactions */
+    .recent-section {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .recent-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.8rem;
+    }
+
+    .recent-item {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .recent-item:last-child {
+      border-bottom: none;
+    }
+
+    .recent-icon {
+      width: 35px;
+      height: 35px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+
+    .recent-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .recent-name {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gray-900);
+    }
+
+    .recent-date {
+      font-size: 0.7rem;
+      color: var(--gray-400);
+    }
+
+    .recent-amount {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .recent-amount.credit {
+      color: var(--green-500);
+    }
+
+    .recent-amount.debit {
+      color: var(--red-500);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem 1rem;
+      color: var(--gray-400);
+      font-size: 0.85rem;
+    }
+
+    .empty-state i {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+
+    /* Confirmation Modal */
+    .confirm-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+
+    .confirm-modal.show {
+      display: flex;
+    }
+
+    .confirm-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      animation: modalIn 0.3s ease-out;
+    }
+
+    @keyframes modalIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .confirm-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--yellow-100);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .confirm-icon i {
+      color: var(--yellow-500);
+      font-size: 1.5rem;
+    }
+
+    .confirm-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .confirm-details {
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 0.8rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+      font-size: 0.8rem;
+    }
+
+    .confirm-details div {
+      padding: 0.3rem 0;
+      color: var(--gray-700);
+    }
+
+    .confirm-details strong {
+      color: var(--gray-900);
+    }
+
+    .confirm-actions {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    .cancel-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gray-100);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-600);
+    }
+
+    .confirm-submit-btn {
+      flex: 1;
+      padding: 0.8rem;
+      background: var(--gradient-blue);
+      border: none;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      color: white;
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+    .toast.warning { border-left-color: var(--yellow-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+    .toast.warning .toast-icon { background: var(--yellow-100); color: var(--yellow-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='admin-dashboard.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Fund Management</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Search User -->
+    <div class="search-section">
+      <div class="search-bar">
+        <i class="fas fa-search"></i>
+        <input type="text" id="searchInput" placeholder="Search by username, email, or phone..." oninput="searchUsers()">
+      </div>
+      <div class="search-results" id="searchResults">
+        <div class="empty-state">
+          <i class="fas fa-search"></i>
+          Search for a user to get started
+        </div>
+      </div>
+    </div>
+
+    <!-- Selected User Card -->
+    <div class="selected-user-card" id="selectedUserCard">
+      <div class="selected-user-header">
+        <div class="selected-user-avatar" id="selectedAvatar">U</div>
+        <div>
+          <div class="selected-user-name" id="selectedName">User Name</div>
+          <div class="selected-user-username" id="selectedUsername">@username</div>
+        </div>
+      </div>
+      <div class="selected-user-balances">
+        <div class="selected-balance-item">
+          <div class="selected-balance-label">Deposit Wallet</div>
+          <div class="selected-balance-amount" id="selectedDeposit">₦0</div>
+        </div>
+        <div class="selected-balance-item">
+          <div class="selected-balance-label">Withdrawal Wallet</div>
+          <div class="selected-balance-amount" id="selectedWithdrawal">₦0</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Fund Form -->
+    <div class="form-section" id="fundForm">
+      <div class="form-title">Fund Management</div>
+      
+      <div class="action-type-grid">
+        <div class="action-type-option" data-action="fund_deposit" onclick="selectAction('fund_deposit')">
+          <div class="action-type-icon" style="color: #10b981;">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="action-type-label">Fund Deposit Wallet</div>
+        </div>
+        <div class="action-type-option" data-action="fund_withdrawal" onclick="selectAction('fund_withdrawal')">
+          <div class="action-type-icon" style="color: #10b981;">
+            <i class="fas fa-plus-circle"></i>
+          </div>
+          <div class="action-type-label">Fund Withdrawal Wallet</div>
+        </div>
+        <div class="action-type-option" data-action="debit_deposit" onclick="selectAction('debit_deposit')">
+          <div class="action-type-icon" style="color: #ef4444;">
+            <i class="fas fa-minus-circle"></i>
+          </div>
+          <div class="action-type-label">Debit Deposit Wallet</div>
+        </div>
+        <div class="action-type-option" data-action="debit_withdrawal" onclick="selectAction('debit_withdrawal')">
+          <div class="action-type-icon" style="color: #ef4444;">
+            <i class="fas fa-minus-circle"></i>
+          </div>
+          <div class="action-type-label">Debit Withdrawal Wallet</div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Amount</label>
+        <div class="input-wrapper">
+          <i class="fas fa-money-bill-wave input-icon"></i>
+          <input type="number" class="form-input" id="amountInput" placeholder="Enter amount" min="1">
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Reason</label>
+        <div class="input-wrapper">
+          <i class="fas fa-comment input-icon"></i>
+          <input type="text" class="form-input" id="reasonInput" placeholder="Enter reason for transaction">
+        </div>
+      </div>
+
+      <button class="submit-btn" id="submitFundBtn" onclick="showConfirmModal()">
+        <i class="fas fa-paper-plane"></i> Submit Transaction
+      </button>
+    </div>
+
+    <!-- Recent Transactions -->
+    <div class="recent-section">
+      <div class="recent-title">Recent Fund Transactions</div>
+      <div id="recentTransactions">
+        <div class="empty-state">
+          <i class="fas fa-clock"></i>
+          No transactions yet
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-content">
+      <div class="confirm-icon">
+        <i class="fas fa-exclamation-triangle"></i>
+      </div>
+      <div class="confirm-title">Confirm Transaction</div>
+      <div class="confirm-details">
+        <div><strong>User:</strong> <span id="confirmUserName">-</span></div>
+        <div><strong>Action:</strong> <span id="confirmAction">-</span></div>
+        <div><strong>Amount:</strong> <span id="confirmAmount">-</span></div>
+        <div><strong>Reason:</strong> <span id="confirmReason">-</span></div>
+      </div>
+      <div class="confirm-actions">
+        <button class="cancel-btn" onclick="hideConfirmModal()">Cancel</button>
+        <button class="confirm-submit-btn" onclick="executeTransaction()">Confirm</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc, getDocs, collection, updateDoc, setDoc, serverTimestamp, increment, query, where } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    let allUsers = [];
+    let selectedUser = null;
+    let selectedAction = null;
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon"><i class="fas ${icons[type]}"></i></div>
+        <div class="toast-content"><h4>${title}</h4><p>${message}</p></div>
+      `;
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 4000);
+    }
+
+    // Search users
+    window.searchUsers = async function() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+      const resultsContainer = document.getElementById('searchResults');
+      
+      if (!searchTerm || searchTerm.length < 2) {
+        resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-search"></i>Search for a user to get started</div>';
+        return;
+      }
+      
+      try {
+        const usersSnap = await getDocs(collection(db, 'users'));
+        const results = [];
+        
+        usersSnap.forEach(doc => {
+          const data = doc.data();
+          if (
+            (data.username || '').toLowerCase().includes(searchTerm) ||
+            (data.email || '').toLowerCase().includes(searchTerm) ||
+            (data.phone || '').toLowerCase().includes(searchTerm) ||
+            (data.fullName || '').toLowerCase().includes(searchTerm)
+          ) {
+            results.push({ id: doc.id, ...data });
+          }
+        });
+        
+        if (results.length === 0) {
+          resultsContainer.innerHTML = '<div class="empty-state"><i class="fas fa-user-slash"></i>No users found</div>';
+          return;
+        }
+        
+        resultsContainer.innerHTML = '';
+        
+        results.forEach(user => {
+          const initial = (user.fullName || 'U').charAt(0).toUpperCase();
+          
+          const item = document.createElement('div');
+          item.className = 'search-result-item';
+          item.innerHTML = `
+            <div class="result-avatar">${initial}</div>
+            <div class="result-info">
+              <div class="result-name">${user.fullName || 'Unknown'}</div>
+              <div class="result-username">@${user.username || 'unknown'} • ${user.phone || 'No phone'}</div>
+            </div>
+            <div class="result-balance">
+              D: ₦${(user.depositWallet || 0).toLocaleString()}<br>
+              W: ₦${(user.withdrawalWallet || 0).toLocaleString()}
+            </div>
+          `;
+          
+          item.onclick = () => selectUser(user);
+          resultsContainer.appendChild(item);
+        });
+        
+      } catch (error) {
+        console.error('Search error:', error);
+        showToast('Error', 'Failed to search users', 'error');
+      }
+    };
+
+    // Select user
+    function selectUser(user) {
+      selectedUser = user;
+      
+      // Highlight selected
+      document.querySelectorAll('.search-result-item').forEach(item => item.classList.remove('selected'));
+      event.target.closest('.search-result-item').classList.add('selected');
+      
+      // Show selected user card
+      document.getElementById('selectedUserCard').classList.add('show');
+      document.getElementById('selectedAvatar').textContent = (user.fullName || 'U').charAt(0).toUpperCase();
+      document.getElementById('selectedName').textContent = user.fullName || 'Unknown';
+      document.getElementById('selectedUsername').textContent = '@' + (user.username || 'unknown');
+      document.getElementById('selectedDeposit').textContent = '₦' + (user.depositWallet || 0).toLocaleString();
+      document.getElementById('selectedWithdrawal').textContent = '₦' + (user.withdrawalWallet || 0).toLocaleString();
+      
+      // Show form
+      document.getElementById('fundForm').classList.add('show');
+      selectedAction = null;
+      document.querySelectorAll('.action-type-option').forEach(opt => opt.classList.remove('selected'));
+    }
+
+    // Select action
+    window.selectAction = function(action) {
+      selectedAction = action;
+      
+      document.querySelectorAll('.action-type-option').forEach(opt => {
+        opt.classList.remove('selected');
+        opt.classList.remove('fund');
+        opt.classList.remove('debit');
+      });
+      
+      const selectedElement = document.querySelector(`[data-action="${action}"]`);
+      selectedElement.classList.add('selected');
+      
+      if (action.startsWith('fund')) {
+        selectedElement.classList.add('fund');
+      } else {
+        selectedElement.classList.add('debit');
+      }
+    };
+
+    // Show confirmation
+    window.showConfirmModal = function() {
+      if (!selectedUser) {
+        showToast('User Required', 'Please select a user first', 'error');
+        return;
+      }
+      
+      if (!selectedAction) {
+        showToast('Action Required', 'Please select an action type', 'error');
+        return;
+      }
+      
+      const amount = parseFloat(document.getElementById('amountInput').value);
+      const reason = document.getElementById('reasonInput').value.trim();
+      
+      if (!amount || amount <= 0) {
+        showToast('Invalid Amount', 'Please enter a valid amount', 'error');
+        return;
+      }
+      
+      if (!reason) {
+        showToast('Reason Required', 'Please enter a reason for the transaction', 'error');
+        return;
+      }
+      
+      // Check if debit exceeds balance
+      if (selectedAction === 'debit_deposit' && amount > (selectedUser.depositWallet || 0)) {
+        showToast('Insufficient Balance', 'Amount exceeds deposit wallet balance', 'error');
+        return;
+      }
+      
+      if (selectedAction === 'debit_withdrawal' && amount > (selectedUser.withdrawalWallet || 0)) {
+        showToast('Insufficient Balance', 'Amount exceeds withdrawal wallet balance', 'error');
+        return;
+      }
+      
+      const actionLabels = {
+        fund_deposit: 'Fund Deposit Wallet',
+        fund_withdrawal: 'Fund Withdrawal Wallet',
+        debit_deposit: 'Debit Deposit Wallet',
+        debit_withdrawal: 'Debit Withdrawal Wallet'
+      };
+      
+      document.getElementById('confirmUserName').textContent = selectedUser.fullName || 'Unknown';
+      document.getElementById('confirmAction').textContent = actionLabels[selectedAction];
+      document.getElementById('confirmAmount').textContent = '₦' + amount.toLocaleString();
+      document.getElementById('confirmReason').textContent = reason;
+      
+      document.getElementById('confirmModal').classList.add('show');
+    };
+
+    window.hideConfirmModal = function() {
+      document.getElementById('confirmModal').classList.remove('show');
+    };
+
+    // Execute transaction
+    window.executeTransaction = async function() {
+      hideConfirmModal();
+      
+      if (!selectedUser || !selectedAction) return;
+      
+      const amount = parseFloat(document.getElementById('amountInput').value);
+      const reason = document.getElementById('reasonInput').value.trim();
+      
+      try {
+        const walletMap = {
+          fund_deposit: { field: 'depositWallet', type: 'credit' },
+          fund_withdrawal: { field: 'withdrawalWallet', type: 'credit' },
+          debit_deposit: { field: 'depositWallet', type: 'debit' },
+          debit_withdrawal: { field: 'withdrawalWallet', type: 'debit' }
+        };
+        
+        const action = walletMap[selectedAction];
+        const updateValue = action.type === 'credit' ? increment(amount) : increment(-amount);
+        
+        // Update user wallet
+        await updateDoc(doc(db, 'users', selectedUser.id), {
+          [action.field]: updateValue,
+          updatedAt: serverTimestamp()
+        });
+        
+        // Record transaction
+        const transactionType = action.type === 'credit' ? 'admin_fund' : 'admin_debit';
+        
+        await setDoc(doc(collection(db, 'users', selectedUser.id, 'transactions')), {
+          type: transactionType,
+          amount: amount,
+          wallet: action.field === 'depositWallet' ? 'deposit' : 'withdrawal',
+          status: 'completed',
+          description: reason,
+          createdAt: serverTimestamp()
+        });
+        
+        // Record in admin fund log
+        await setDoc(doc(collection(db, 'admin_funds')), {
+          userId: selectedUser.id,
+          userName: selectedUser.fullName || 'Unknown',
+          action: selectedAction,
+          amount: amount,
+          reason: reason,
+          adminId: auth.currentUser?.uid || 'admin',
+          createdAt: serverTimestamp()
+        });
+        
+        showToast('Transaction Successful', '₦' + amount.toLocaleString() + ' has been processed', 'success');
+        
+        // Reset form
+        document.getElementById('amountInput').value = '';
+        document.getElementById('reasonInput').value = '';
+        selectedAction = null;
+        document.querySelectorAll('.action-type-option').forEach(opt => opt.classList.remove('selected'));
+        
+        loadRecentTransactions();
+        
+      } catch (error) {
+        console.error('Transaction error:', error);
+        showToast('Error', 'Failed to process transaction', 'error');
+      }
+    };
+
+    // Load recent transactions
+    async function loadRecentTransactions() {
+      const recentContainer = document.getElementById('recentTransactions');
+      
+      try {
+        const fundsSnap = await getDocs(collection(db, 'admin_funds'));
+        const recentFunds = [];
+        
+        fundsSnap.forEach(doc => {
+          const data = doc.data();
+          recentFunds.push({
+            ...data,
+            timestamp: data.createdAt?.toDate?.() || new Date(data.createdAt) || new Date()
+          });
+        });
+        
+        recentFunds.sort((a, b) => b.timestamp - a.timestamp);
+        
+        if (recentFunds.length === 0) {
+          recentContainer.innerHTML = '<div class="empty-state"><i class="fas fa-clock"></i>No transactions yet</div>';
+          return;
+        }
+        
+        recentContainer.innerHTML = '';
+        
+        recentFunds.slice(0, 10).forEach(fund => {
+          const isCredit = fund.action?.startsWith('fund');
+          
+          const item = document.createElement('div');
+          item.className = 'recent-item';
+          item.innerHTML = `
+            <div class="recent-icon" style="background: ${isCredit ? '#d1fae5' : '#fee2e2'}; color: ${isCredit ? '#10b981' : '#ef4444'};">
+              <i class="fas ${isCredit ? 'fa-plus' : 'fa-minus'}"></i>
+            </div>
+            <div class="recent-info">
+              <div class="recent-name">${fund.userName || 'Unknown'} - ${fund.reason || 'No reason'}</div>
+              <div class="recent-date">${fund.timestamp.toLocaleDateString('en-NG', { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' })}</div>
+            </div>
+            <div class="recent-amount ${isCredit ? 'credit' : 'debit'}">
+              ${isCredit ? '+' : '-'}₦${(fund.amount || 0).toLocaleString()}
+            </div>
+          `;
+          
+          recentContainer.appendChild(item);
+        });
+        
+      } catch (error) {
+        console.error('Error loading recent transactions:', error);
+      }
+    }
+
+    // Check admin auth
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists() && userDoc.data().isAdmin === true) {
+            loadRecentTransactions();
+          } else {
+            window.location.href = 'admin-login.html';
+          }
+        } catch (error) {
+          console.error('Error checking admin:', error);
+        }
+      } else {
+        window.location.href = 'admin-login.html';
+      }
+    });
+
+    console.log('Finora Admin Fund Management Page Ready');
+  </script>
+</body>
+</html>
