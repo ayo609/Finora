@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finora • Admin Login</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gradient-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Background decoration */
+    .bg-circle {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .circle-1 {
+      width: 300px;
+      height: 300px;
+      top: -100px;
+      right: -100px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.2) 0%, transparent 70%);
+      animation: float 15s infinite;
+    }
+
+    .circle-2 {
+      width: 200px;
+      height: 200px;
+      bottom: -50px;
+      left: -50px;
+      background: radial-gradient(circle, rgba(37, 99, 235, 0.3) 0%, transparent 70%);
+      animation: float 18s infinite reverse;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0); }
+      50% { transform: translate(30px, -30px); }
+    }
+
+    .main-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 420px;
+    }
+
+    /* Admin Badge */
+    .admin-badge {
+      text-align: center;
+      margin-bottom: 1.5rem;
+      color: white;
+    }
+
+    .admin-logo {
+      width: 70px;
+      height: 70px;
+      background: var(--gradient-blue);
+      border-radius: 20px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 10px 30px rgba(37, 99, 235, 0.4);
+    }
+
+    .admin-logo i {
+      font-size: 1.8rem;
+      color: white;
+    }
+
+    .admin-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+    }
+
+    .admin-subtitle {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.7);
+      margin-top: 0.3rem;
+    }
+
+    /* Login Card */
+    .login-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .login-header h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.3rem;
+    }
+
+    .login-header p {
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.3px;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      pointer-events: none;
+      z-index: 1;
+      transition: color 0.3s;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.8rem 0.9rem 0.8rem 2.6rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 14px;
+      font-size: 0.9rem;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      transition: all 0.3s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--primary-blue);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1);
+    }
+
+    .input-wrapper input:focus ~ .input-icon {
+      color: var(--primary-blue);
+    }
+
+    .input-wrapper input::placeholder {
+      color: var(--gray-400);
+      font-size: 0.82rem;
+    }
+
+    .input-wrapper input.input-error {
+      border-color: var(--red-500);
+      background: #fef2f2;
+    }
+
+    .password-toggle-btn {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0.2rem;
+      z-index: 2;
+      transition: color 0.3s;
+    }
+
+    .password-toggle-btn:hover {
+      color: var(--primary-blue);
+    }
+
+    .options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.2rem;
+    }
+
+    .remember-wrap {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+    }
+
+    .remember-wrap input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+    }
+
+    .remember-wrap span {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    .forgot-link {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .forgot-link:hover {
+      text-decoration: underline;
+    }
+
+    .login-btn {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gradient-dark);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Sora', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 25px rgba(30, 64, 175, 0.3);
+      letter-spacing: 0.3px;
+    }
+
+    .login-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(30, 64, 175, 0.4);
+    }
+
+    .login-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .user-login-link {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      color: var(--gray-500);
+    }
+
+    .user-login-link a {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .user-login-link a:hover {
+      color: var(--dark-blue);
+    }
+
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+    .toast.warning { border-left-color: var(--yellow-500); }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .toast.success .toast-icon {
+      background: var(--green-100);
+      color: var(--green-500);
+    }
+
+    .toast.error .toast-icon {
+      background: var(--red-100);
+      color: var(--red-500);
+    }
+
+    .toast.warning .toast-icon {
+      background: var(--yellow-100);
+      color: var(--yellow-500);
+    }
+
+    .toast-content h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.1rem;
+    }
+
+    .toast-content p {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Background circles -->
+  <div class="bg-circle circle-1"></div>
+  <div class="bg-circle circle-2"></div>
+
+  <div class="main-container">
+    
+    <!-- Admin Badge -->
+    <div class="admin-badge">
+      <div class="admin-logo">
+        <i class="fas fa-shield-halved"></i>
+      </div>
+      <div class="admin-title">Finora Admin</div>
+      <div class="admin-subtitle">Administrator Portal</div>
+    </div>
+
+    <!-- Login Card -->
+    <div class="login-card">
+      <div class="login-header">
+        <h2>Admin Sign In</h2>
+        <p>Enter your credentials to access the panel</p>
+      </div>
+
+      <form id="adminLoginForm">
+        
+        <div class="form-group">
+          <label>Admin Email</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="adminEmail" placeholder="admin@finora.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Password</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="adminPassword" placeholder="Enter your password" required autocomplete="current-password">
+            <button type="button" class="password-toggle-btn" onclick="togglePassword()">
+              <i class="fas fa-eye" id="passwordToggleIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="options-row">
+          <label class="remember-wrap">
+            <input type="checkbox" id="rememberMe">
+            <span>Remember me</span>
+          </label>
+          <a href="#" class="forgot-link">Forgot password?</a>
+        </div>
+
+        <button type="submit" class="login-btn" id="loginBtn">
+          <i class="fas fa-sign-in-alt"></i> Sign In
+        </button>
+
+      </form>
+
+      <div class="user-login-link">
+        Not an admin? <a href="login.html">User Login</a>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, setPersistence, browserLocalPersistence, browserSessionPersistence, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon">
+          <i class="fas ${icons[type]}"></i>
+        </div>
+        <div class="toast-content">
+          <h4>${title}</h4>
+          <p>${message}</p>
+        </div>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 4000);
+    }
+
+    window.togglePassword = function() {
+      const input = document.getElementById('adminPassword');
+      const icon = document.getElementById('passwordToggleIcon');
+      
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+      } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+      }
+    };
+
+    // Check if already logged in
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        // Check if user is admin
+        try {
+          const userDoc = await getDoc(doc(db, 'users', user.uid));
+          if (userDoc.exists()) {
+            const userData = userDoc.data();
+            if (userData.isAdmin === true) {
+              window.location.href = 'admin-dashboard.html';
+            }
+          }
+        } catch (error) {
+          console.error('Error checking admin status:', error);
+        }
+      }
+    });
+
+    // Login form submission
+    document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const email = document.getElementById('adminEmail').value.trim();
+      const password = document.getElementById('adminPassword').value;
+      const rememberMe = document.getElementById('rememberMe').checked;
+      
+      if (!email) {
+        showToast('Email Required', 'Please enter your admin email', 'warning');
+        return;
+      }
+      
+      if (!password) {
+        showToast('Password Required', 'Please enter your password', 'warning');
+        return;
+      }
+      
+      const loginBtn = document.getElementById('loginBtn');
+      loginBtn.disabled = true;
+      loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Signing In...';
+      
+      try {
+        // Set persistence
+        const persistenceType = rememberMe ? browserLocalPersistence : browserSessionPersistence;
+        await setPersistence(auth, persistenceType);
+        
+        // Sign in
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        
+        // Check if user is admin
+        const userDoc = await getDoc(doc(db, 'users', userCredential.user.uid));
+        
+        if (userDoc.exists()) {
+          const userData = userDoc.data();
+          
+          if (userData.isAdmin === true) {
+            showToast('Welcome Admin!', 'Redirecting to admin dashboard...', 'success');
+            
+            setTimeout(() => {
+              window.location.href = 'admin-dashboard.html';
+            }, 1500);
+          } else {
+            // Not an admin
+            await auth.signOut();
+            showToast('Access Denied', 'This account does not have admin privileges', 'error');
+            loginBtn.disabled = false;
+            loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+          }
+        } else {
+          await auth.signOut();
+          showToast('Access Denied', 'Admin account not found', 'error');
+          loginBtn.disabled = false;
+          loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+        }
+        
+      } catch (error) {
+        console.error('Admin login error:', error);
+        
+        let message = 'Please try again.';
+        if (error.code === 'auth/user-not-found') {
+          message = 'No account found with this email.';
+        } else if (error.code === 'auth/wrong-password') {
+          message = 'Incorrect password.';
+        } else if (error.code === 'auth/invalid-credential') {
+          message = 'Invalid credentials.';
+        } else if (error.code === 'auth/too-many-requests') {
+          message = 'Too many attempts. Try again later.';
+        } else if (error.code === 'auth/network-request-failed') {
+          message = 'Network error. Check your connection.';
+        }
+        
+        showToast('Login Failed', message, 'error');
+        
+        loginBtn.disabled = false;
+        loginBtn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+      }
+    });
+
+    console.log('Finora Admin Login Page Ready');
+  </script>
+</body>
+</html>
