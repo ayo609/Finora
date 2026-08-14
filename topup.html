@@ -580,8 +580,8 @@
       <!-- Bank Details -->
       <div class="bank-details">
         <div class="bank-name">Opay</div>
-        <div class="account-number">9167378733</div>
-        <div class="account-name">Taufeek Muftau</div>
+        <div class="account-number">6566151371</div>
+        <div class="account-name">Geraldine Amaugo</div>
         <button class="copy-btn" onclick="copyAccountNumber()">
           <i class="fas fa-copy"></i> Copy Account Number
         </button>
@@ -766,7 +766,7 @@
 
     // Copy account number
     window.copyAccountNumber = function() {
-      const accountNumber = '9167378733';
+      const accountNumber = '6566151371';
       navigator.clipboard.writeText(accountNumber).then(() => {
         showToast('Copied!', 'Account number copied to clipboard', 'success');
       }).catch(() => {
@@ -906,8 +906,8 @@
           proofImage: imageBase64,
           status: 'pending',
           bankName: 'Opay',
-          accountNumber: '9167378733',
-          accountName: 'Taufeek Muftau',
+          accountNumber: '6566151371',
+          accountName: 'Geraldine Amaugo',
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         });
