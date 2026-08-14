@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finova Ads/Telecom • Help & Support</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --whatsapp-green: #25D366;
+      --gradient-ads: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #7c3aed 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: 'Manrope', sans-serif;
+      background: var(--gray-50);
+      overflow-x: hidden;
+      -webkit-overflow-scrolling: touch;
+      padding-bottom: 70px;
+    }
+
+    .header {
+      background: var(--gradient-dark);
+      padding: 1rem 1.2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .back-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .header-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .main-container {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      background: var(--gradient-ads);
+      border-radius: 20px;
+      padding: 2rem 1.5rem;
+      text-align: center;
+      color: white;
+      margin-bottom: 1rem;
+    }
+
+    .hero-icon {
+      width: 60px;
+      height: 60px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .hero-icon i {
+      font-size: 1.5rem;
+    }
+
+    .hero-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-subtitle {
+      font-size: 0.85rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    /* WhatsApp Group Button */
+    .whatsapp-group-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      background: var(--whatsapp-green);
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      color: white;
+      text-decoration: none;
+      margin-bottom: 1rem;
+      box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+      transition: all 0.3s;
+    }
+
+    .whatsapp-group-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(37, 211, 102, 0.4);
+    }
+
+    .whatsapp-icon {
+      width: 45px;
+      height: 45px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.3rem;
+      flex-shrink: 0;
+    }
+
+    .whatsapp-info {
+      flex: 1;
+    }
+
+    .whatsapp-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.1rem;
+    }
+
+    .whatsapp-subtitle {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .whatsapp-arrow {
+      font-size: 1rem;
+    }
+
+    /* FAQ Section */
+    .faq-section {
+      background: white;
+      border-radius: 20px;
+      padding: 1.2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      margin-bottom: 1rem;
+    }
+
+    .faq-title {
+      font-family: 'Sora', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .faq-title i {
+      color: var(--primary-blue);
+    }
+
+    .faq-item {
+      border-bottom: 1px solid var(--gray-100);
+      margin-bottom: 0.5rem;
+    }
+
+    .faq-item:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+
+    .faq-question {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.8rem 0;
+      cursor: pointer;
+      transition: all 0.3s;
+      gap: 0.5rem;
+    }
+
+    .faq-question-text {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--gray-800);
+      flex: 1;
+    }
+
+    .faq-toggle-icon {
+      color: var(--gray-400);
+      font-size: 0.8rem;
+      transition: transform 0.3s;
+      flex-shrink: 0;
+    }
+
+    .faq-item.active .faq-toggle-icon {
+      transform: rotate(180deg);
+      color: var(--primary-blue);
+    }
+
+    .faq-answer {
+      display: none;
+      padding: 0 0 0.8rem 0;
+      font-size: 0.75rem;
+      color: var(--gray-500);
+      line-height: 1.6;
+    }
+
+    .faq-item.active .faq-answer {
+      display: block;
+    }
+
+    /* Contact Cards */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact-card {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: var(--gray-800);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .contact-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 0.5rem;
+      font-size: 1rem;
+    }
+
+    .contact-label {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.2rem;
+    }
+
+    .contact-value {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+    }
+
+    /* Working Hours */
+    .working-hours {
+      background: white;
+      border-radius: 16px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .working-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--yellow-100);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--yellow-500);
+      font-size: 1rem;
+      flex-shrink: 0;
+    }
+
+    .working-info {
+      flex: 1;
+    }
+
+    .working-title {
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.2rem;
+    }
+
+    .working-hours-text {
+      font-size: 0.75rem;
+      color: var(--gray-500);
+    }
+
+    .bottom-nav {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: white;
+      border-top: 1px solid var(--gray-200);
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0.6rem 0.5rem;
+      z-index: 100;
+      box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.2rem;
+      cursor: pointer;
+      padding: 0.3rem 0.5rem;
+      border-radius: 8px;
+      text-decoration: none;
+    }
+
+    .nav-item i {
+      font-size: 1.2rem;
+      color: var(--gray-400);
+    }
+
+    .nav-item span {
+      font-size: 0.65rem;
+      color: var(--gray-500);
+      font-weight: 600;
+    }
+
+    .nav-item.active i {
+      color: var(--primary-blue);
+    }
+
+    .nav-item.active span {
+      color: var(--primary-blue);
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s;
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: var(--green-500); }
+    .toast.error { border-left-color: var(--red-500); }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+    }
+
+    .toast.success .toast-icon { background: var(--green-100); color: var(--green-500); }
+    .toast.error .toast-icon { background: var(--red-100); color: var(--red-500); }
+
+    .toast-content h4 { font-size: 0.82rem; font-weight: 700; color: var(--gray-900); }
+    .toast-content p { font-size: 0.72rem; color: var(--gray-500); }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <button class="back-btn" onclick="window.location.href='profile.html'">
+      <i class="fas fa-arrow-left"></i>
+    </button>
+    <span class="header-title">Help & Support</span>
+  </div>
+
+  <div class="main-container">
+    
+    <!-- Hero Section -->
+    <div class="hero-section">
+      <div class="hero-icon">
+        <i class="fas fa-headset"></i>
+      </div>
+      <div class="hero-title">How can we help you?</div>
+      <div class="hero-subtitle">Find answers to common questions or join our community</div>
+    </div>
+
+    <!-- WhatsApp Group -->
+    <a href="https://chat.whatsapp.com/HmY9JJts6sg3YDs3o2NL3a?s=cl&p=a&mlu=4" target="_blank" class="whatsapp-group-btn">
+      <div class="whatsapp-icon">
+        <i class="fab fa-whatsapp"></i>
+      </div>
+      <div class="whatsapp-info">
+        <div class="whatsapp-title">Join Our WhatsApp Group</div>
+        <div class="whatsapp-subtitle">Get quick answers and community support</div>
+      </div>
+      <i class="fas fa-arrow-right whatsapp-arrow"></i>
+    </a>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+      <div class="faq-title">
+        <i class="fas fa-question-circle"></i> Frequently Asked Questions
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How do I create an account?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          To create an account, click on the "Create Account" button on the registration page. Fill in your full name, username, mobile number, email address, and password. You can also add a referral code if you were referred by someone. After agreeing to the terms, click "Create Account" and you're done!
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How do I deposit funds into my account?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          To deposit funds, go to the "Top Up" page from your dashboard. Select the amount you want to deposit or enter a custom amount. Click "Proceed" to see the bank account details. Make a transfer to the provided account and upload your payment proof. Your deposit will be reviewed and approved by our admin team.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How do investments work?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          We offer two types of investment plans: 5-day plans and 2-week plans. 5-day plans offer 40% ROI, while 2-week plans offer 100% ROI. Once you purchase a plan from your deposit wallet, your funds are locked for the duration. After the maturity period, your returns are automatically credited to your withdrawal wallet.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How do I withdraw my earnings?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          To withdraw, go to the "Cashout" page. Enter the amount you want to withdraw (minimum ₦2,000). Your saved bank account will be used for the transfer. Enter your 4-digit withdrawal PIN to confirm. Withdrawals are processed between 8:30 AM and 5:30 PM. A 4% processing fee applies.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How does the referral program work?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Share your referral link with friends. When they register using your link and make their first investment, you earn: 10% from Level 1 referrals, 2% from Level 2, and 1% from Level 3. This is a one-time bonus credited to your withdrawal wallet on their first investment.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">What is the Star Bonus program?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          The Star Bonus rewards active referrers. When you have a certain number of active investors (people you referred who have purchased plans), you become eligible for daily bonuses ranging from ₦2,000 to ₦50,000. Check the Star Bonus page from your profile to see your progress and claim eligible bonuses.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How do I set up my withdrawal PIN?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Go to your Profile page and click on "Withdrawal PIN". If it's your first time, you can set a new 4-digit PIN using the numeric keypad. If you need to reset an existing PIN, you'll need to verify your login password first for security.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">How long does deposit approval take?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Deposits are typically reviewed and approved within a few minutes to a few hours during working hours (8:00 AM - 6:00 PM, Monday to Saturday). Make sure you upload a clear screenshot of your payment proof to speed up the process.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">What should I do if I forget my password?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          On the login page, enter your username or phone number and click "Forgot password?". We'll send a password reset link to your registered email address. Click the link to set a new password and regain access to your account.
+        </div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-question" onclick="toggleFaq(this)">
+          <span class="faq-question-text">Is there a minimum deposit amount?</span>
+          <i class="fas fa-chevron-down faq-toggle-icon"></i>
+        </div>
+        <div class="faq-answer">
+          Yes, the minimum deposit amount is ₦1,000. The minimum withdrawal amount is ₦2,000. Investment plans start from ₦5,000 for 5-day plans and ₦100,000 for 2-week plans.
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Options -->
+    <div class="contact-grid">
+      <a href="mailto:support@finova.com" class="contact-card">
+        <div class="contact-icon" style="background: #dbeafe; color: #2563eb;">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="contact-label">Email Us</div>
+        <div class="contact-value">support@finova.com</div>
+      </a>
+      <a href="tel:08012345678" class="contact-card">
+        <div class="contact-icon" style="background: #d1fae5; color: #10b981;">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div class="contact-label">Call Us</div>
+        <div class="contact-value">08012345678</div>
+      </a>
+    </div>
+
+    <!-- Working Hours -->
+    <div class="working-hours">
+      <div class="working-icon">
+        <i class="fas fa-clock"></i>
+      </div>
+      <div class="working-info">
+        <div class="working-title">Working Hours</div>
+        <div class="working-hours-text">Monday - Saturday: 8:00 AM - 6:00 PM</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="bottom-nav">
+    <a href="dashboard.html" class="nav-item">
+      <i class="fas fa-home"></i>
+      <span>Home</span>
+    </a>
+    <a href="plans.html" class="nav-item">
+      <i class="fas fa-chart-line"></i>
+      <span>Plans</span>
+    </a>
+    <a href="topup.html" class="nav-item">
+      <i class="fas fa-plus-circle"></i>
+      <span>Top Up</span>
+    </a>
+    <a href="share.html" class="nav-item">
+      <i class="fas fa-share-alt"></i>
+      <span>Share</span>
+    </a>
+    <a href="profile.html" class="nav-item active">
+      <i class="fas fa-user"></i>
+      <span>Profile</span>
+    </a>
+  </div>
+
+  <script>
+    // FAQ Toggle Function
+    function toggleFaq(element) {
+      const faqItem = element.parentElement;
+      
+      // Close all other FAQ items
+      document.querySelectorAll('.faq-item').forEach(item => {
+        if (item !== faqItem && item.classList.contains('active')) {
+          item.classList.remove('active');
+        }
+      });
+      
+      // Toggle current FAQ item
+      faqItem.classList.toggle('active');
+    }
+
+    console.log('Finova Ads/Telecom Help & Support Page Ready');
+  </script>
+</body>
+</html>
