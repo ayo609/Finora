@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+  <title>Finova Ads/Telecom • Create Account</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    :root {
+      --primary-blue: #2563eb;
+      --sky-blue: #38bdf8;
+      --light-blue: #7dd3fc;
+      --dark-blue: #1e40af;
+      --navy-blue: #172554;
+      --white: #ffffff;
+      --off-white: #f8fafc;
+      --gray-50: #f9fafb;
+      --gray-100: #f3f4f6;
+      --gray-200: #e5e7eb;
+      --gray-300: #d1d5db;
+      --gray-400: #9ca3af;
+      --gray-500: #6b7280;
+      --gray-600: #4b5563;
+      --gray-700: #374151;
+      --gray-800: #1f2937;
+      --gray-900: #111827;
+      --green-500: #10b981;
+      --green-100: #d1fae5;
+      --red-500: #ef4444;
+      --red-100: #fee2e2;
+      --yellow-500: #f59e0b;
+      --yellow-100: #fef3c7;
+      --gradient-blue: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+      --gradient-dark: linear-gradient(135deg, #172554 0%, #1e40af 100%);
+      --gradient-ads: linear-gradient(135deg, #0ea5e9 0%, #2563eb 50%, #7c3aed 100%);
+    }
+
+    html {
+      height: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      min-height: 100vh;
+      min-height: 100dvh;
+      font-family: 'Manrope', sans-serif;
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #f5f3ff 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(14, 165, 233, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 50%),
+        radial-gradient(circle at 50% 50%, rgba(37, 99, 235, 0.04) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .main-container {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 460px;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+
+    .brand-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+      padding: 0 0.5rem;
+    }
+
+    .brand-left {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .brand-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-ads);
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 8px 20px rgba(14, 165, 233, 0.3);
+    }
+
+    .brand-icon i {
+      color: white;
+      font-size: 1.3rem;
+    }
+
+    .brand-text h1 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: var(--gradient-ads);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: -0.5px;
+      line-height: 1.2;
+    }
+
+    .brand-text p {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+    }
+
+    .help-link a {
+      color: var(--gray-500);
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 600;
+      transition: color 0.3s;
+    }
+
+    .help-link a:hover {
+      color: var(--primary-blue);
+    }
+
+    .register-card {
+      background: white;
+      border-radius: 24px;
+      padding: 2rem 1.5rem;
+      box-shadow: 0 20px 50px rgba(14, 165, 233, 0.1);
+      position: relative;
+      width: 100%;
+      border: 1px solid rgba(14, 165, 233, 0.1);
+    }
+
+    .register-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gradient-ads);
+      border-radius: 24px 24px 0 0;
+    }
+
+    .card-title {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+
+    .card-title h2 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gray-900);
+      margin-bottom: 0.4rem;
+      letter-spacing: -0.5px;
+    }
+
+    .card-title p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+    }
+
+    .form-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .field-group {
+      position: relative;
+      width: 100%;
+    }
+
+    .field-group label {
+      display: block;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--gray-700);
+      margin-bottom: 0.4rem;
+      letter-spacing: 0.3px;
+    }
+
+    .field-group label .required {
+      color: #dc2626;
+      margin-left: 2px;
+    }
+
+    .field-group label .optional {
+      color: var(--gray-400);
+      font-weight: 400;
+      font-size: 0.72rem;
+      margin-left: 4px;
+    }
+
+    .input-wrapper {
+      position: relative;
+      width: 100%;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray-400);
+      font-size: 0.9rem;
+      pointer-events: none;
+      transition: color 0.3s;
+      z-index: 1;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 0.75rem 0.8rem 0.75rem 2.6rem;
+      border: 2px solid var(--gray-200);
+      border-radius: 14px;
+      font-size: 0.88rem;
+      font-family: 'Manrope', sans-serif;
+      color: var(--gray-800);
+      background: var(--gray-50);
+      transition: all 0.3s;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--primary-blue);
+      background: white;
+      box-shadow: 0 0 0 4px rgba(14, 165, 233, 0.1);
+    }
+
+    .input-wrapper input:focus ~ .input-icon {
+      color: var(--primary-blue);
+    }
+
+    .input-wrapper input::placeholder {
+      color: var(--gray-400);
+      font-size: 0.82rem;
+    }
+
+    .input-wrapper input.input-error {
+      border-color: #dc2626;
+      background: #fef2f2;
+    }
+
+    .input-wrapper input.input-valid {
+      border-color: #059669;
+      background: #f0fdf4;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: var(--gray-400);
+      cursor: pointer;
+      font-size: 0.85rem;
+      padding: 0.2rem;
+      transition: color 0.3s;
+      z-index: 2;
+    }
+
+    .password-toggle:hover {
+      color: var(--primary-blue);
+    }
+
+    .feedback-message {
+      font-size: 0.7rem;
+      margin-top: 0.3rem;
+      display: none;
+      align-items: center;
+      gap: 0.3rem;
+      font-weight: 500;
+    }
+
+    .feedback-message.show {
+      display: flex;
+    }
+
+    .feedback-message.error {
+      color: #dc2626;
+    }
+
+    .feedback-message.success {
+      color: #059669;
+    }
+
+    .feedback-message.checking {
+      color: var(--primary-blue);
+    }
+
+    .password-strength-circle {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .strength-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .strength-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--gray-200);
+      transition: all 0.3s;
+    }
+
+    .strength-dot.active.weak {
+      background: #dc2626;
+    }
+
+    .strength-dot.active.fair {
+      background: #f59e0b;
+    }
+
+    .strength-dot.active.good {
+      background: #3b82f6;
+    }
+
+    .strength-dot.active.strong {
+      background: #059669;
+    }
+
+    .strength-text {
+      font-size: 0.7rem;
+      color: var(--gray-500);
+      font-weight: 500;
+    }
+
+    .terms-checkbox {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .terms-checkbox input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      accent-color: var(--primary-blue);
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .terms-checkbox label {
+      font-size: 0.78rem;
+      color: var(--gray-500);
+      line-height: 1.5;
+      cursor: pointer;
+    }
+
+    .terms-checkbox a {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .terms-checkbox a:hover {
+      text-decoration: underline;
+    }
+
+    .submit-button {
+      width: 100%;
+      padding: 0.85rem;
+      background: var(--gradient-ads);
+      border: none;
+      border-radius: 14px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-family: 'Sora', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 25px rgba(14, 165, 233, 0.3);
+      letter-spacing: 0.3px;
+      margin-top: 0.5rem;
+    }
+
+    .submit-button:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(14, 165, 233, 0.4);
+    }
+
+    .submit-button:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .login-link {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 0.82rem;
+      color: var(--gray-500);
+    }
+
+    .login-link a {
+      color: var(--primary-blue);
+      text-decoration: none;
+      font-weight: 700;
+      transition: color 0.3s;
+    }
+
+    .login-link a:hover {
+      color: var(--dark-blue);
+    }
+
+    /* Success Modal */
+    .success-modal {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.5);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 10001;
+      padding: 1rem;
+    }
+
+    .success-modal.show {
+      display: flex;
+    }
+
+    .success-content {
+      background: white;
+      border-radius: 20px;
+      padding: 2rem;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      animation: modalIn 0.3s ease-out;
+    }
+
+    @keyframes modalIn {
+      from {
+        opacity: 0;
+        transform: scale(0.9);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .success-icon {
+      width: 60px;
+      height: 60px;
+      background: #d1fae5;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1rem;
+    }
+
+    .success-icon i {
+      color: #059669;
+      font-size: 1.5rem;
+    }
+
+    .success-content h3 {
+      font-family: 'Sora', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.5rem;
+    }
+
+    .success-content p {
+      font-size: 0.85rem;
+      color: var(--gray-500);
+      margin-bottom: 1.5rem;
+    }
+
+    .success-content .redirect-btn {
+      width: 100%;
+      padding: 0.8rem;
+      background: var(--gradient-ads);
+      border: none;
+      border-radius: 12px;
+      color: white;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 10000;
+      background: white;
+      border-radius: 14px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      animation: slideIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      min-width: 280px;
+      max-width: 90vw;
+      border-left: 4px solid var(--primary-blue);
+    }
+
+    .toast.success { border-left-color: #059669; }
+    .toast.error { border-left-color: #dc2626; }
+    .toast.warning { border-left-color: #f59e0b; }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .toast-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.9rem;
+      flex-shrink: 0;
+    }
+
+    .toast.success .toast-icon {
+      background: #d1fae5;
+      color: #059669;
+    }
+
+    .toast.error .toast-icon {
+      background: #fee2e2;
+      color: #dc2626;
+    }
+
+    .toast.warning .toast-icon {
+      background: #fed7aa;
+      color: #d97706;
+    }
+
+    .toast-content h4 {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--gray-900);
+      margin-bottom: 0.1rem;
+    }
+
+    .toast-content p {
+      font-size: 0.72rem;
+      color: var(--gray-500);
+    }
+
+    @media (max-width: 480px) {
+      .main-container {
+        padding: 0.5rem;
+      }
+
+      .register-card {
+        padding: 1.5rem 1rem;
+        border-radius: 20px;
+      }
+
+      .card-title h2 {
+        font-size: 1.4rem;
+      }
+
+      .brand-icon {
+        width: 42px;
+        height: 42px;
+      }
+
+      .brand-text h1 {
+        font-size: 1.1rem;
+      }
+
+      .form-section {
+        gap: 0.8rem;
+      }
+
+      .input-wrapper input {
+        padding: 0.7rem 0.7rem 0.7rem 2.4rem;
+        font-size: 0.85rem;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .register-card {
+        padding: 1.2rem 0.8rem;
+      }
+
+      .submit-button {
+        font-size: 0.85rem;
+        padding: 0.75rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-pattern"></div>
+
+  <div class="main-container">
+    
+    <div class="brand-header">
+      <div class="brand-left">
+        <div class="brand-icon">
+          <i class="fas fa-broadcast-tower"></i>
+        </div>
+        <div class="brand-text">
+          <h1>Finova Ads/Telecom</h1>
+          <p>Advertising & Telecom Platform</p>
+        </div>
+      </div>
+      <div class="help-link">
+        <a href="#">Need Help?</a>
+      </div>
+    </div>
+
+    <div class="register-card">
+      
+      <div class="card-title">
+        <h2>Create Account</h2>
+        <p>Start earning with Finova Ads/Telecom</p>
+      </div>
+
+      <form id="registerForm" class="form-section">
+        
+        <div class="field-group">
+          <label>Full Name <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-user input-icon"></i>
+            <input type="text" id="regName" placeholder="Enter your full name" required minlength="2" autocomplete="name">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Username <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-at input-icon"></i>
+            <input type="text" id="regUsername" placeholder="Your referral ID" required minlength="3" maxlength="20" pattern="[a-z0-9]+" autocomplete="username">
+          </div>
+          <div class="feedback-message" id="usernameFeedback"></div>
+        </div>
+
+        <div class="field-group">
+          <label>Mobile Number <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-mobile-alt input-icon"></i>
+            <input type="tel" id="regPhone" placeholder="08012345678" required pattern="[0-9]{10,15}" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Email Address <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="regEmail" placeholder="you@example.com" required autocomplete="email">
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Password <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="regPassword" placeholder="Create password" required minlength="8" autocomplete="new-password">
+            <button type="button" class="password-toggle" data-target="regPassword">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+          <div class="password-strength-circle">
+            <div class="strength-dots">
+              <div class="strength-dot" id="dot1"></div>
+              <div class="strength-dot" id="dot2"></div>
+              <div class="strength-dot" id="dot3"></div>
+              <div class="strength-dot" id="dot4"></div>
+            </div>
+            <span class="strength-text" id="strengthText">Password strength</span>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Confirm Password <span class="required">*</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-shield-alt input-icon"></i>
+            <input type="password" id="regConfirmPassword" placeholder="Confirm password" required autocomplete="new-password">
+            <button type="button" class="password-toggle" data-target="regConfirmPassword">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <div class="field-group">
+          <label>Referral Code <span class="optional">(Optional)</span></label>
+          <div class="input-wrapper">
+            <i class="fas fa-user-plus input-icon"></i>
+            <input type="text" id="regReferral" placeholder="Enter referral username">
+          </div>
+          <div class="feedback-message" id="referralFeedback"></div>
+        </div>
+
+        <div class="terms-checkbox">
+          <input type="checkbox" id="regTerms" required>
+          <label>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></label>
+        </div>
+
+        <button type="submit" class="submit-button" id="regSubmitBtn">
+          <i class="fas fa-arrow-right"></i> Create Account
+        </button>
+
+        <div class="login-link">
+          Already have an account? <a href="login.html">Sign In</a>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div class="success-modal" id="successModal">
+    <div class="success-content">
+      <div class="success-icon">
+        <i class="fas fa-check"></i>
+      </div>
+      <h3>Account Created Successfully!</h3>
+      <p>Welcome to Finova Ads/Telecom. Your account has been created.</p>
+      <button class="redirect-btn" onclick="window.location.href='dashboard.html'">
+        Go to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, updateProfile } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-auth.js";
+    import { getFirestore, doc, setDoc, getDoc, getDocs, collection, query, where, serverTimestamp, increment, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCLkkB9LhiD1vyEQ0W1EEzxBsSuL4e9HrE",
+      authDomain: "finora-397cd.firebaseapp.com",
+      projectId: "finora-397cd",
+      storageBucket: "finora-397cd.firebasestorage.app",
+      messagingSenderId: "860666862619",
+      appId: "1:860666862619:web:bb82a7518630034339ecbe"
+    };
+
+    console.log('Initializing Firebase...');
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    console.log('Firebase initialized successfully');
+
+    const REFERRAL_RATES = { 1: 5, 2: 2, 3: 1 };
+
+    function showToast(title, message, type = 'success') {
+      const existing = document.querySelector('.toast');
+      if (existing) existing.remove();
+      
+      const icons = {
+        success: 'fa-check-circle',
+        error: 'fa-exclamation-circle',
+        warning: 'fa-exclamation-triangle'
+      };
+      
+      const toast = document.createElement('div');
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `
+        <div class="toast-icon">
+          <i class="fas ${icons[type]}"></i>
+        </div>
+        <div class="toast-content">
+          <h4>${title}</h4>
+          <p>${message}</p>
+        </div>
+      `;
+      
+      document.body.appendChild(toast);
+      
+      setTimeout(() => {
+        if (toast.parentNode) {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = 'all 0.3s';
+          setTimeout(() => toast.remove(), 300);
+        }
+      }, 5000);
+    }
+
+    function showSuccessModal() {
+      document.getElementById('successModal').classList.add('show');
+    }
+
+    document.querySelectorAll('.password-toggle').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const targetId = this.getAttribute('data-target');
+        const input = document.getElementById(targetId);
+        const icon = this.querySelector('i');
+        
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.classList.replace('fa-eye', 'fa-eye-slash');
+        } else {
+          input.type = 'password';
+          icon.classList.replace('fa-eye-slash', 'fa-eye');
+        }
+      });
+    });
+
+    async function findUserByUsername(username) {
+      const usersRef = collection(db, 'users');
+      const q = query(usersRef, where('username', '==', username.toLowerCase()));
+      const querySnapshot = await getDocs(q);
+      
+      if (querySnapshot.empty) {
+        return null;
+      }
+      
+      const userDoc = querySnapshot.docs[0];
+      return { id: userDoc.id, ...userDoc.data() };
+    }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const refParam = urlParams.get('ref');
+    if (refParam) {
+      document.getElementById('regReferral').value = refParam;
+      verifyReferralCode(refParam);
+    }
+
+    let verifiedReferrerId = null;
+    let checkTimeout;
+
+    document.getElementById('regUsername').addEventListener('input', (e) => {
+      const val = e.target.value.toLowerCase().trim();
+      const fb = document.getElementById('usernameFeedback');
+      
+      clearTimeout(checkTimeout);
+      
+      if (val.length < 3) {
+        fb.className = 'feedback-message';
+        e.target.classList.remove('input-valid', 'input-error');
+        return;
+      }
+      
+      if (!/^[a-z0-9]+$/.test(val)) {
+        fb.innerHTML = '<i class="fas fa-times-circle"></i> Only letters & numbers';
+        fb.className = 'feedback-message show error';
+        e.target.classList.add('input-error');
+        e.target.classList.remove('input-valid');
+        return;
+      }
+      
+      fb.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Checking...';
+      fb.className = 'feedback-message show checking';
+      
+      checkTimeout = setTimeout(async () => {
+        try {
+          const exists = await findUserByUsername(val);
+          if (exists) {
+            fb.innerHTML = '<i class="fas fa-times-circle"></i> Username taken';
+            fb.className = 'feedback-message show error';
+            e.target.classList.add('input-error');
+            e.target.classList.remove('input-valid');
+          } else {
+            fb.innerHTML = '<i class="fas fa-check-circle"></i> Username available';
+            fb.className = 'feedback-message show success';
+            e.target.classList.add('input-valid');
+            e.target.classList.remove('input-error');
+          }
+        } catch (error) {
+          console.error('Error checking username:', error);
+          fb.className = 'feedback-message';
+        }
+      }, 600);
+    });
+
+    document.getElementById('regReferral').addEventListener('input', (e) => {
+      const code = e.target.value.toLowerCase().trim();
+      const fb = document.getElementById('referralFeedback');
+      
+      verifiedReferrerId = null;
+      clearTimeout(checkTimeout);
+      
+      if (!code || code.length < 3) {
+        fb.className = 'feedback-message';
+        e.target.classList.remove('input-valid', 'input-error');
+        return;
+      }
+      
+      fb.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+      fb.className = 'feedback-message show checking';
+      
+      checkTimeout = setTimeout(async () => {
+        try {
+          const ref = await findUserByUsername(code);
+          if (ref) {
+            verifiedReferrerId = ref.id;
+            fb.innerHTML = `<i class="fas fa-check-circle"></i> Referred by ${ref.fullName || ref.username}`;
+            fb.className = 'feedback-message show success';
+            e.target.classList.add('input-valid');
+            e.target.classList.remove('input-error');
+          } else {
+            fb.innerHTML = '<i class="fas fa-times-circle"></i> Invalid referral code';
+            fb.className = 'feedback-message show error';
+            e.target.classList.add('input-error');
+            e.target.classList.remove('input-valid');
+          }
+        } catch (error) {
+          console.error('Error checking referral:', error);
+          fb.className = 'feedback-message';
+        }
+      }, 600);
+    });
+
+    async function verifyReferralCode(code) {
+      try {
+        const ref = await findUserByUsername(code);
+        if (ref) {
+          verifiedReferrerId = ref.id;
+          document.getElementById('referralFeedback').innerHTML = `<i class="fas fa-check-circle"></i> Referred by ${ref.fullName || ref.username}`;
+          document.getElementById('referralFeedback').className = 'feedback-message show success';
+          document.getElementById('regReferral').classList.add('input-valid');
+        }
+      } catch (error) {
+        console.error('Error verifying referral:', error);
+      }
+    }
+
+    document.getElementById('regPassword').addEventListener('input', (e) => {
+      const pw = e.target.value;
+      const strengthText = document.getElementById('strengthText');
+      
+      let score = 0;
+      if (pw.length >= 8) score++;
+      if (pw.match(/[a-z]/) && pw.match(/[A-Z]/)) score++;
+      if (pw.match(/[0-9]/)) score++;
+      if (pw.match(/[^a-zA-Z0-9]/)) score++;
+      
+      for (let i = 1; i <= 4; i++) {
+        const dot = document.getElementById(`dot${i}`);
+        dot.className = 'strength-dot';
+      }
+      
+      if (score >= 1) {
+        const strengthClass = score === 1 ? 'weak' : score === 2 ? 'fair' : score === 3 ? 'good' : 'strong';
+        for (let i = 1; i <= score; i++) {
+          const dot = document.getElementById(`dot${i}`);
+          dot.className = `strength-dot active ${strengthClass}`;
+        }
+      }
+      
+      if (score === 0) {
+        strengthText.textContent = 'Password strength';
+      } else if (score === 1) {
+        strengthText.textContent = 'Weak';
+      } else if (score === 2) {
+        strengthText.textContent = 'Fair';
+      } else if (score === 3) {
+        strengthText.textContent = 'Good';
+      } else {
+        strengthText.textContent = 'Strong';
+      }
+    });
+
+    document.getElementById('regConfirmPassword').addEventListener('input', (e) => {
+      const match = document.getElementById('regPassword').value === e.target.value;
+      e.target.classList.toggle('input-error', !match && e.target.value.length > 0);
+      e.target.classList.toggle('input-valid', match && e.target.value.length > 0);
+    });
+
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const btn = document.getElementById('regSubmitBtn');
+      const name = document.getElementById('regName').value.trim();
+      const username = document.getElementById('regUsername').value.trim().toLowerCase();
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const password = document.getElementById('regPassword').value;
+      const confirmPassword = document.getElementById('regConfirmPassword').value;
+      const referralCode = document.getElementById('regReferral').value.trim().toLowerCase();
+      const termsChecked = document.getElementById('regTerms').checked;
+
+      if (name.length < 2) return showToast('Invalid Name', 'Please enter your full name', 'error');
+      if (username.length < 3) return showToast('Invalid Username', 'Username must be at least 3 characters', 'error');
+      if (!/^[a-z0-9]+$/.test(username)) return showToast('Invalid Username', 'Only letters & numbers allowed', 'error');
+      if (!phone.match(/^[0-9]{10,15}$/)) return showToast('Invalid Phone', 'Please enter a valid mobile number', 'error');
+      if (password.length < 8) return showToast('Weak Password', 'Minimum 8 characters required', 'error');
+      if (password !== confirmPassword) return showToast('Password Mismatch', 'Passwords do not match', 'error');
+      if (!termsChecked) return showToast('Terms Required', 'Please accept the terms to continue', 'warning');
+
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+
+      try {
+        console.log('Starting registration process...');
+        
+        const usernameExists = await findUserByUsername(username);
+        if (usernameExists) {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-arrow-right"></i> Create Account';
+          return showToast('Username Taken', 'Please choose another username', 'error');
+        }
+
+        let finalReferrer = verifiedReferrerId;
+        if (!finalReferrer && referralCode) {
+          const refData = await findUserByUsername(referralCode);
+          if (refData) finalReferrer = refData.id;
+        }
+
+        let level1Referrer = null, level2Referrer = null, level3Referrer = null;
+        
+        if (finalReferrer) {
+          level1Referrer = finalReferrer;
+          try {
+            const l1Doc = await getDoc(doc(db, 'users', finalReferrer));
+            
+            if (l1Doc.exists()) {
+              const l1Data = l1Doc.data();
+              if (l1Data.referredBy) {
+                level2Referrer = l1Data.referredBy;
+                try {
+                  const l2Doc = await getDoc(doc(db, 'users', l1Data.referredBy));
+                  if (l2Doc.exists() && l2Doc.data().referredBy) {
+                    level3Referrer = l2Doc.data().referredBy;
+                  }
+                } catch (err) {
+                  console.warn('Error fetching level 2 referrer:', err);
+                }
+              }
+            }
+          } catch (err) {
+            console.warn('Error fetching level 1 referrer:', err);
+          }
+        }
+
+        console.log('Creating Firebase Auth user...');
+        const credential = await createUserWithEmailAndPassword(auth, email, password);
+        const newUserId = credential.user.uid;
+        await updateProfile(credential.user, { displayName: name });
+        console.log('Auth user created:', newUserId);
+
+        console.log('Creating Firestore user document...');
+        await setDoc(doc(db, 'users', newUserId), {
+          uid: newUserId,
+          fullName: name,
+          username: username,
+          email: email,
+          phone: phone,
+          role: 'user',
+          status: 'active',
+          referredBy: level1Referrer || null,
+          level2Referrer: level2Referrer || null,
+          level3Referrer: level3Referrer || null,
+          depositWallet: 0,
+          withdrawalWallet: 0,
+          totalDeposits: 0,
+          totalWithdrawals: 0,
+          totalEarnings: 0,
+          totalRefEarnings: 0,
+          activeInvestments: 0,
+          referralCount: 0,
+          level1Count: 0,
+          level2Count: 0,
+          level3Count: 0,
+          emailVerified: false,
+          isAdmin: false,
+          createdAt: serverTimestamp(),
+          lastLogin: serverTimestamp(),
+          updatedAt: serverTimestamp()
+        });
+        console.log('User document created');
+
+        if (level1Referrer) {
+          console.log('Building referral chain...');
+          let currentUpliner = level1Referrer;
+          const levels = [
+            { level: 1, rate: REFERRAL_RATES[1] },
+            { level: 2, rate: REFERRAL_RATES[2] },
+            { level: 3, rate: REFERRAL_RATES[3] }
+          ];
+
+          for (const lvl of levels) {
+            if (!currentUpliner) break;
+
+            try {
+              await setDoc(doc(db, `users/${currentUpliner}/referrals`, newUserId), {
+                referredUserId: newUserId,
+                referredUserName: name,
+                referredUserEmail: email,
+                referredUsername: username,
+                level: lvl.level,
+                commission: lvl.rate,
+                referredAt: serverTimestamp(),
+                totalEarned: 0,
+                lastInvestment: null
+              });
+
+              await updateDoc(doc(db, 'users', currentUpliner), {
+                referralCount: increment(lvl.level === 1 ? 1 : 0),
+                [`level${lvl.level}Count`]: increment(1),
+                updatedAt: serverTimestamp()
+              });
+            } catch (chainErr) {
+              console.warn(`Level ${lvl.level} chain warning:`, chainErr);
+            }
+
+            try {
+              const uplinerDoc = await getDoc(doc(db, 'users', currentUpliner));
+              if (uplinerDoc.exists()) {
+                const ud = uplinerDoc.data();
+                currentUpliner = lvl.level === 1 ? ud.referredBy :
+                                lvl.level === 2 ? ud.level2Referrer : null;
+              } else {
+                break;
+              }
+            } catch {
+              break;
+            }
+          }
+        }
+
+        console.log('Registration successful!');
+        
+        showSuccessModal();
+        showToast('Account Created!', 'Welcome to Finova Ads/Telecom', 'success');
+
+      } catch (error) {
+        console.error('Registration error details:', error);
+        
+        let message = 'Please try again.';
+        if (error.code === 'auth/email-already-in-use') {
+          message = 'Email already registered.';
+        } else if (error.code === 'auth/invalid-email') {
+          message = 'Invalid email format.';
+        } else if (error.code === 'auth/weak-password') {
+          message = 'Password too weak.';
+        } else if (error.code === 'auth/operation-not-allowed') {
+          message = 'Email/Password sign-in is not enabled. Enable it in Firebase Console.';
+        } else if (error.code === 'auth/network-request-failed') {
+          message = 'Network error. Check your internet connection.';
+        } else if (error.code === 'permission-denied') {
+          message = 'Permission denied. Check Firestore security rules.';
+        } else if (error.code === 'auth/configuration-not-found') {
+          message = 'Authentication configuration not found.';
+        } else if (error.message) {
+          message = error.message;
+        }
+        
+        showToast('Registration Failed', message, 'error');
+        
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-arrow-right"></i> Create Account';
+      }
+    });
+
+    console.log('Finova Ads/Telecom Registration Page Ready');
+  </script>
+</body>
+</html>
